@@ -14,6 +14,6 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts", 
-    "app/index.tsx", "components/Welcome.tsx", "components/Logo.tsx", "components/Carrousel.jsx", "components/data.ts", "components/CarouselCardItem.tsx"  ],
+    "app/index.tsx", "screen/Welcome.tsx", "components/Logo.tsx", "components/Carrousel.jsx", "components/data.ts", "components/CarouselCardItem.tsx", "screen/DetailsScreen.jsx"  ],
   "exclude": ["node_modules"]
 }
