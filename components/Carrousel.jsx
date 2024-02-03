@@ -3,10 +3,12 @@ import {
   StyleSheet,
   View,
   KeyboardAvoidingView,
+  Button,
 } from "react-native";
 import data from "./data";
-import { Button, Card, Text } from "react-native-paper";
+import { Card, Text } from "react-native-paper";
 import Carousel from "react-native-snap-carousel";
+import { Link } from "expo-router";
 
 const SLIDER_WIDTH = Dimensions.get("window").width + 80;
 
@@ -26,7 +28,12 @@ const renderItem = ({ item }) => {
         <Text variant="bodySmall">{item.description}</Text>
         <Text></Text>
       </Card.Content>
-      <Text style={styles.price}>${item.prize}</Text>
+      <View style={{ flexDirection: "row" }}>
+        <Text style={styles.price}>${item.prize}</Text>
+        <Link style={styles.button} href={"/screen/DetailsScreen"}>
+          Details
+        </Link>
+      </View>
     </Card>
   );
 };
@@ -47,12 +54,6 @@ export default function Carrousel() {
 }
 
 const styles = StyleSheet.create({
-  // contentImage: {
-  //   margin: 0,
-  //   padding: 0,
-  //   width: "100%",
-  //   height: "54%",
-  // },
   img: {
     borderRadius: 0,
     width: "100",
@@ -69,7 +70,11 @@ const styles = StyleSheet.create({
   },
   price: {
     fontWeight: "bold",
-    marginTop: 10,
+    marginHorizontal: 20,
+  },
+  button: {
+    fontWeight: "bold",
+    textDecorationColor: "#000298",
     marginLeft: "auto",
     marginRight: 20,
   },

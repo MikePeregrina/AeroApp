@@ -1,18 +1,21 @@
-import { Text, View, SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
-import Welcome from "@/screen/Welcome";
+import Welcome from "@/app/screen/Welcome";
+import { UserProvider } from "./context/useContext";
 
 export default function TabOneScreen() {
   return (
-    <SafeAreaView>
-      <Stack.Screen
-        options={{
-          headerShadowVisible: true,
-          headerTitle: "Aerobot Learning",
-        }}
-      />
-      <Welcome />
-    </SafeAreaView>
+    <UserProvider>
+      <SafeAreaView>
+        <Stack.Screen
+          options={{
+            headerShadowVisible: true,
+            headerTitle: "Aerobot Learning",
+          }}
+        />
+        <Welcome />
+      </SafeAreaView>
+    </UserProvider>
   );
 }
 
@@ -30,8 +33,6 @@ const styles = StyleSheet.create({
 
     // Sombras para Android
     elevation: 2,
-
-    // Para agregar sombra solo en la parte inferior
     borderBottomWidth: 2,
     borderBottomColor: "rgba(0, 0, 0, 0.1)",
   },

@@ -4,7 +4,6 @@
     "slug": "aeromobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.jpeg",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {

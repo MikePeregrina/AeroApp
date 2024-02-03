@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Carrousel from "@/components/Carrousel";
 import { Searchbar } from "react-native-paper";
-
 const Welcome = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
   return (
