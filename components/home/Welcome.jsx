@@ -1,15 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Carrousel from "@/components/Carrousel";
+import { StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
+import CardContent from "./CardContent";
+import data from "./../data";
+
 const Welcome = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
+
   return (
-    <View
-      style={{
-        backgroundColor: "#ffffff",
-      }}
-    >
+    <View>
       <View style={styles.content}>
         <Text style={styles.title}>Bienvenido Jose Ignacio</Text>
         <Text style={styles.subTittle}>¿Que Deseas Aprender?</Text>
@@ -21,9 +20,7 @@ const Welcome = () => {
           value={searchQuery}
         />
       </View>
-      <View>
-        <Carrousel />
-      </View>
+      <CardContent data={data} />
     </View>
   );
 };

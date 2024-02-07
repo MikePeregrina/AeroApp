@@ -15,7 +15,7 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts", 
     "app/index.jsx", "**/*.tsx",
-    "app/index.jsx", "**/*.jsx", "app/context/useContext.js",
+    "app/index.jsx", "**/*.jsx", "app/context/useContext.js", "app/screen/[id].js",
   ],
   "exclude": ["node_modules"]
 }
