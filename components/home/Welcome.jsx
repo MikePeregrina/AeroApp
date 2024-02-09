@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import CardContent from "./CardContent";
 import data from "./../data";
+import Buttons from "./Buttons";
 
 const Welcome = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -11,15 +12,15 @@ const Welcome = () => {
     <View>
       <View style={styles.content}>
         <Text style={styles.title}>Bienvenido Jose Ignacio</Text>
-        <Text style={styles.subTittle}>¿Que Deseas Aprender?</Text>
+        <View style={styles.inputquery}>
+          <Searchbar
+            placeholder="¿Que deseas aprender?"
+            onChangeText={setSearchQuery}
+            value={searchQuery}
+          />
+        </View>
       </View>
-      <View style={styles.inputquery}>
-        <Searchbar
-          placeholder="Search"
-          onChangeText={setSearchQuery}
-          value={searchQuery}
-        />
-      </View>
+      <Buttons />
       <CardContent data={data} />
     </View>
   );
@@ -33,19 +34,15 @@ const styles = StyleSheet.create({
     borderBottomColor: "#bebeba",
   },
   title: {
-    fontSize: 15,
-    fontWeight: "400",
-    marginBottom: 3,
-  },
-  subTittle: {
-    marginBottom: 3,
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: "900",
+    marginBottom: 15,
+    color: "#FF7F50",
   },
   inputquery: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginBottom: 30,
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginBottom: 10,
   },
 });
 

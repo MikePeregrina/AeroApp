@@ -1,17 +1,9 @@
 import React from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { Link } from "expo-router";
 
 const CustomModal = ({ visible, text, onClose, onButtonClick }) => {
-  const navigation = useNavigation();
-
-  const handleButtonClick = () => {
-    // Navegar a la siguiente pantalla
-    navigation.navigate("NextScreen");
-    // Cerrar el modal
-    onClose();
-  };
-
   return (
     <Modal
       animationType="slide"
@@ -22,8 +14,8 @@ const CustomModal = ({ visible, text, onClose, onButtonClick }) => {
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text style={styles.modalText}>{text}</Text>
-          <TouchableOpacity onPress={handleButtonClick} style={styles.button}>
-            <Text style={styles.buttonText}>Iniciar Sesion</Text>
+          <TouchableOpacity style={styles.button}>
+            <Text style={{ color: "blue", fontSize: 16 }}>Iniciar Sesion</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onButtonClick} style={{ marginTop: 20 }}>
             <Text style={{ color: "blue", fontSize: 16 }}>Cerrar</Text>

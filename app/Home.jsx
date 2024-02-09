@@ -2,6 +2,7 @@ import React from "react";
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import { Stack, Slot } from "expo-router";
 import Welcome from "./../components/home/Welcome";
+import Logo from "./../components/logo/Logo";
 
 const Home = () => {
   return (
@@ -13,7 +14,9 @@ const Home = () => {
       >
         <Stack.Screen
           options={{
-            title: "Inicio",
+            headerStyle: { backgroundColor: "#F8F8F8" },
+            headerShadowVisible: true,
+            headerTitle: (props) => <Logo />,
           }}
         />
         <Welcome />
