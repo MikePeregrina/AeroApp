@@ -1,3 +1,5 @@
+//** Ruta main */
+
 import { Redirect } from "expo-router";
 import Layout from "./_layout";
 
