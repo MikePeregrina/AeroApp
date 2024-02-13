@@ -1,8 +1,9 @@
 import React from "react";
 import { View, SafeAreaView, StyleSheet } from "react-native";
-import { Stack, Slot } from "expo-router";
+import { Stack } from "expo-router";
 import Welcome from "./../components/home/Welcome";
 import Logo from "./../components/logo/Logo";
+import ProgrammingArea from "./../components/home/ProgrammingArea";
 
 const Home = () => {
   return (

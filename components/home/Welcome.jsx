@@ -1,32 +1,41 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
-import CardContent from "./CardContent";
+import RecommendRoutes from "./RecommendRoutes";
 import data from "./../data";
 import Buttons from "./Buttons";
+import ProgrammingArea from "./ProgrammingArea";
+import Asesorias from "./Asesorias";
 
 const Welcome = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
 
   return (
-    <View>
-      <View style={styles.content}>
-        <Text style={styles.title}>Bienvenido Jose Ignacio</Text>
-        <View style={styles.inputquery}>
-          <Searchbar
-            placeholder="¿Que deseas aprender?"
-            onChangeText={setSearchQuery}
-            value={searchQuery}
-          />
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <View>
+        <View style={styles.content}>
+          <Text style={styles.title}>Bienvenido Jose Ignacio</Text>
+          <View style={styles.inputquery}>
+            <Searchbar
+              placeholder="¿Que deseas aprender?"
+              onChangeText={setSearchQuery}
+              value={searchQuery}
+            />
+          </View>
         </View>
+        <Buttons />
+        <RecommendRoutes data={data} />
+        <ProgrammingArea />
+        <Asesorias />
       </View>
-      <Buttons />
-      <CardContent data={data} />
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1,
+  },
   content: {
     margin: 20,
     padding: 7,
