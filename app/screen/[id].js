@@ -6,14 +6,13 @@ import { useState } from "react";
 
 const DetailScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const params = useGlobalSearchParams();
+  const idRuta = parseInt(params.id);
+  const searchValue = data.find((ruta) => ruta.id === idRuta);
 
   const handleClick = () => {
     setModalVisible(false);
   };
-
-  const params = useGlobalSearchParams();
-  const idRuta = parseInt(params.id);
-  const searchValue = data.find((ruta) => ruta.id === idRuta);
 
   return (
     <View>
@@ -24,20 +23,20 @@ const DetailScreen = () => {
       />
       <View>
         <Image
-          source={{ uri: searchValue.imgUrl }}
+          source={{ uri: searchValue?.imgUrl }}
           style={{ width: "100%", height: 220 }}
         />
       </View>
       <View style={{ margin: 20 }}>
         <View>
-          <Text style={styles.title}>{searchValue.title}</Text>
-          <Text style={styles.subtitle}>{searchValue.description}</Text>
+          <Text style={styles.title}>{searchValue?.title}</Text>
+          <Text style={styles.subtitle}>{searchValue?.description}</Text>
         </View>
         <View>
-          <Text style={styles.description}>{searchValue.body}</Text>
+          <Text style={styles.description}>{searchValue?.body}</Text>
         </View>
         <View>
-          <Text style={styles.price}>MX${searchValue.prize}</Text>
+          <Text style={styles.price}>MX${searchValue?.prize}</Text>
         </View>
         <View style={{ marginVertical: 10 }}>
           <Button
@@ -50,16 +49,14 @@ const DetailScreen = () => {
         <CustomModal
           visible={modalVisible}
           text="Debes Iniciar Sesion"
-          onClose={() => {
-            setModalVisible(false);
-          }}
+          onClose={() => setModalVisible(false)}
           onButtonClick={handleClick}
         />
         <View>
           <Text style={styles.learn}>Que aprenderas?</Text>
           <Text style={{ fontSize: 15, marginVertical: 5 }}>
             {" "}
-            -- {searchValue.learn}
+            -- {searchValue?.learn}
           </Text>
         </View>
         <View>
