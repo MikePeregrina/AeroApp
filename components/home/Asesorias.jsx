@@ -5,7 +5,7 @@ const Asesorias = () => {
   return (
     <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
       <Text style={{ fontWeight: "bold", fontSize: 25 }}>Asesorias</Text>
-      <Link href={"/screen/Login"}>Iniciar sesion</Link>
+      <Link href={"/screen/HomeLoginScreen"}>Iniciar sesion</Link>
     </View>
   );
 };

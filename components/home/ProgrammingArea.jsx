@@ -3,9 +3,6 @@ import { Card, Text } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
 
 const ProgrammingArea = () => {
-  console.log("====================================");
-  console.log("NO JALA");
-  console.log("====================================");
   return (
     <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
       <Text style={styles.title}>Area de programacion</Text>

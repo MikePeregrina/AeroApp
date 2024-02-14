@@ -2,7 +2,7 @@ import React from "react";
 import { Image, StyleSheet } from "react-native";
 
 const Logo = () => {
-  //** Logo de la barra lateral  */
+  //** Logo de la barra superior  */
   return (
     <Image
       source={require("../../assets/images/logo.jpg")}
