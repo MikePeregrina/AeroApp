@@ -16,10 +16,11 @@ export default function RegisterScreen() {
 
   const SignupSchema = Yup.object().shape({
     name: Yup.string()
-      .min(2, "Too Short!")
-      .max(70, "Too Long!")
+      .min(2, "Nombre demasiado corto!")
+      .max(50, "Nombre demasiado largo!")
       .required("Campo Requerido"),
-    email: Yup.string().email("Invalid email").required("Campo Requerido"),
+    email: Yup.string().email("Correo Incorrecto").required("Campo Requerido"),
+    password: Yup.string().required("Campo Requerido"),
   });
 
   return (

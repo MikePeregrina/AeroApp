@@ -9,15 +9,23 @@ import TextInput from "../../components/login/TextInput";
 import { theme } from "../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
+import * as Yup from "yup";
 
 export default function LoginScreen() {
   const router = useRouter();
+
+  const SignupSchema = Yup.object().shape({
+    email: Yup.string().email("Correo Incorrecto").required("Campo Requerido"),
+    password: Yup.string().required("Campo Requerido"),
+  });
+
   return (
     <Background>
       <Logo />
       <Header>Welcome back.</Header>
       <Formik
         initialValues={{ password: "", email: "" }}
+        validationSchema={SignupSchema}
         onSubmit={(values) => console.log(values)}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -27,7 +35,7 @@ export default function LoginScreen() {
               label="Correo"
               returnKeyType="next"
               onChangeText={handleChange("email")}
-              onBlur={handleBlur}
+              onBlur={handleBlur("email")}
               autoCapitalize="none"
               autoCompleteType="email"
               textContentType="emailAddress"
@@ -37,13 +45,13 @@ export default function LoginScreen() {
               name="password"
               label="Contraseña"
               returnKeyType="done"
-              onBlur={handleBlur("password")}
               onChangeText={handleChange("password")}
+              onBlur={handleBlur("password")}
               secureTextEntry
             />
             <View style={styles.forgotPassword}>
               <TouchableOpacity
-                onPress={() => router.navigate("/screen/ResetPasswordScreen")}
+                onPress={() => router.replace("/screen/ResetPasswordScreen")}
               >
                 <Text style={styles.forgot}>Forgot your password?</Text>
               </TouchableOpacity>

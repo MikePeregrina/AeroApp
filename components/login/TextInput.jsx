@@ -4,7 +4,7 @@ import { TextInput as Input } from "react-native-paper";
 import { theme } from "./theme";
 import { useField } from "formik";
 
-export default function TextInput({ errorText, description, ...props }) {
+export default function TextInput({ description, ...props }) {
   const [field, meta] = useField(props);
 
   const inputStyle = [
@@ -19,9 +19,11 @@ export default function TextInput({ errorText, description, ...props }) {
         selectionColor={theme.colors.primary}
         underlineColor="transparent"
         mode="outlined"
-        {...field}
         {...props}
       />
+      {description ? (
+        <Text style={styles.description}>{description}</Text>
+      ) : null}
       {meta.touched && meta.error ? (
         <Text style={styles.error}>{meta.error}</Text>
       ) : null}

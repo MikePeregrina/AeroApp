@@ -13,10 +13,10 @@ export default function Login() {
   return (
     <Background>
       <Logo />
-      <Header>AeroBot Learning</Header>
+      <Header>Aerobot Learning</Header>
       <Paragraph>
-        La platataforma educativa especializada en coding para instituciones,
-        escuelas y usuarios
+        La plataforma en línea de aprendizaje personalizado por videollamada con
+        un mentor
       </Paragraph>
       <Button
         mode="contained"
