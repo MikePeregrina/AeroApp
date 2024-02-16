@@ -9,9 +9,18 @@ import TextInput from "../../components/login/TextInput";
 import { theme } from "../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
+import * as Yup from "yup";
 
 export default function RegisterScreen() {
   const router = useRouter();
+
+  const SignupSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, "Too Short!")
+      .max(70, "Too Long!")
+      .required("Campo Requerido"),
+    email: Yup.string().email("Invalid email").required("Campo Requerido"),
+  });
 
   return (
     <Background>
@@ -19,17 +28,20 @@ export default function RegisterScreen() {
       <Header>Crear Cuenta</Header>
       <Formik
         initialValues={{ name: "", password: "", email: "" }}
+        validationSchema={SignupSchema}
         onSubmit={(values) => console.log(values)}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View style={{ width: "100%" }}>
             <TextInput
+              name="name"
               label="Nombre"
               returnKeyType="next"
               onChangeText={handleChange("name")}
               onBlur={handleBlur("name")}
             />
             <TextInput
+              name="email"
               label="Correo"
               returnKeyType="next"
               onChangeText={handleChange("email")}
@@ -40,6 +52,7 @@ export default function RegisterScreen() {
               keyboardType="email-address"
             />
             <TextInput
+              name="password"
               label="Contraseña"
               returnKeyType="done"
               onChangeText={handleChange("password")}
@@ -58,7 +71,9 @@ export default function RegisterScreen() {
       </Formik>
       <View style={styles.row}>
         <Text>Already have an account? </Text>
-        <TouchableOpacity onPress={() => router.replace("/screen/LoginScreen")}>
+        <TouchableOpacity
+          onPress={() => router.navigate("/screen/LoginScreen")}
+        >
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
       </View>

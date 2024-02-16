@@ -2,21 +2,29 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { TextInput as Input } from "react-native-paper";
 import { theme } from "./theme";
+import { useField } from "formik";
 
 export default function TextInput({ errorText, description, ...props }) {
+  const [field, meta] = useField(props);
+
+  const inputStyle = [
+    styles.input,
+    meta.touched && meta.error ? styles.inputError : null,
+  ];
+
   return (
     <View style={styles.container}>
       <Input
-        style={styles.input}
+        style={inputStyle}
         selectionColor={theme.colors.primary}
         underlineColor="transparent"
         mode="outlined"
+        {...field}
         {...props}
       />
-      {description && !errorText ? (
-        <Text style={styles.description}>{description}</Text>
+      {meta.touched && meta.error ? (
+        <Text style={styles.error}>{meta.error}</Text>
       ) : null}
-      {errorText ? <Text style={styles.error}>{errorText}</Text> : null}
     </View>
   );
 }
@@ -29,6 +37,11 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: theme.colors.surface,
   },
+
+  inputError: {
+    borderColor: theme.colors.error,
+  },
+
   description: {
     fontSize: 13,
     color: theme.colors.secondary,

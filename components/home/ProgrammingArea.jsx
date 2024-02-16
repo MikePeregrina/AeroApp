@@ -1,21 +1,13 @@
 import React from "react";
 import { Card, Text } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
+import Carrusel from "../carrusel/Carrusel";
 
 const ProgrammingArea = () => {
   return (
     <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
       <Text style={styles.title}>Area de programacion</Text>
-      <Card>
-        <Card.Cover
-          source={{
-            uri: "https://www.mundodeportivo.com/alfabeta/hero/2023/04/mejores-anime-largos.jpg?width=1200&aspect_ratio=16:9",
-          }}
-        />
-        <Card.Content>
-          <Text>Python desde cero</Text>
-        </Card.Content>
-      </Card>
+      <Carrusel />
     </View>
   );
 };

@@ -16,10 +16,14 @@ export default function LoginScreen() {
     <Background>
       <Logo />
       <Header>Welcome back.</Header>
-      <Formik>
+      <Formik
+        initialValues={{ password: "", email: "" }}
+        onSubmit={(values) => console.log(values)}
+      >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View style={{ width: "100%" }}>
             <TextInput
+              name="email"
               label="Correo"
               returnKeyType="next"
               onChangeText={handleChange("email")}
@@ -30,9 +34,10 @@ export default function LoginScreen() {
               keyboardType="email-address"
             />
             <TextInput
+              name="password"
               label="Contraseña"
               returnKeyType="done"
-              onBlur={handleBlur}
+              onBlur={handleBlur("password")}
               onChangeText={handleChange("password")}
               secureTextEntry
             />
@@ -43,7 +48,9 @@ export default function LoginScreen() {
                 <Text style={styles.forgot}>Forgot your password?</Text>
               </TouchableOpacity>
             </View>
-            <Button mode="contained">Login</Button>
+            <Button onPress={handleSubmit} mode="contained">
+              Login
+            </Button>
           </View>
         )}
       </Formik>
