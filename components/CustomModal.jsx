@@ -1,14 +1,9 @@
 import React from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 const CustomModal = ({ visible, text, onClose, onButtonClick }) => {
   const router = useRouter();
-
-  const handleLogin = () => {
-    router.navigate("/screen/Login");
-  };
 
   return (
     <Modal
@@ -20,7 +15,10 @@ const CustomModal = ({ visible, text, onClose, onButtonClick }) => {
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text style={styles.modalText}>{text}</Text>
-          <TouchableOpacity onPress={handleLogin} style={styles.button}>
+          <TouchableOpacity
+            onPress={() => router.replace("/screen/HomeLoginScreen")}
+            style={styles.button}
+          >
             <Text style={{ color: "white", fontSize: 16 }}>Iniciar Sesion</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onButtonClick} style={{ marginTop: 20 }}>
