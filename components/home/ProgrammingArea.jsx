@@ -1,14 +1,20 @@
 import React from "react";
-import { Card, Text } from "react-native-paper";
-import { StyleSheet, View } from "react-native";
-import Carrusel from "../carrusel/Carrusel";
+import { Text } from "react-native-paper";
+import { ScrollView, StyleSheet, View } from "react-native";
+import Carrusel from "./../carrusel/Carrusel";
 
 const ProgrammingArea = () => {
   return (
-    <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-      <Text style={styles.title}>Area de programacion</Text>
-      <Carrusel />
-    </View>
+    <ScrollView nestedScrollEnabled={true}>
+      <View>
+        <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
+          <Text style={styles.title}>Area de programacion</Text>
+        </View>
+        <View>
+          <Carrusel typeMode={"parallax"} />
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 

@@ -1,27 +1,39 @@
 import * as React from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import Cards from "./Card";
 
-const Carrusel = () => {
+const Carrusel = ({ typeMode }) => {
+  const [autoPlay, setAutoPlay] = React.useState(false);
+  const [pagingEnabled, setPagingEnabled] = React.useState(true);
+  const [snapEnabled, setSnapEnabled] = React.useState(true);
+
+  const { width: screenWidth, height: screenHeigth } = Dimensions.get("window");
   return (
     <View style={{ flex: 1 }}>
       <Carousel
         loop
-        width={100}
-        height={100 / 2}
-        autoPlay={true}
+        width={screenWidth}
+        height={350}
         data={[...new Array(6).keys()]}
         scrollAnimationDuration={1000}
-        // onSnapToItem={(index) => console.log("current index:", index)}
+        pagingEnabled={pagingEnabled}
+        snapEnabled={snapEnabled}
+        autoPlay={autoPlay}
+        mode={typeMode}
+        modeConfig={{
+          parallaxScrollingScale: 0.9,
+          parallaxScrollingOffset: 50,
+        }}
         renderItem={({ index }) => (
           <View
             style={{
               flex: 1,
-              borderWidth: 1,
+              marginHorizontal: 15,
               justifyContent: "center",
             }}
           >
-            <Text style={{ textAlign: "center", fontSize: 30 }}>{index}</Text>
+            <Cards />
           </View>
         )}
       />
