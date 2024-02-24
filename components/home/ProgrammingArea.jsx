@@ -1,20 +1,37 @@
 import React from "react";
 import { Text } from "react-native-paper";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Carrusel from "./../carrusel/Carrusel";
+import { GestureDetector } from "react-native-gesture-handler";
+import { Gesture } from "react-native-gesture-handler";
 
 const ProgrammingArea = () => {
+  const panGesture = Gesture.Pan()
+    .onStart(() => {
+      console.log("Gesto de Pan empezando");
+    })
+    .onUpdate((e) => {
+      if (Math.abs(e.translationX) > Math.abs(e.translationY)) {
+        console.log("====================================");
+        console.log("Movimiento horizontal");
+        console.log("====================================");
+      } else {
+        console.log("Movimiento Vertical");
+      }
+    })
+    .onEnd(() => {
+      console.log("Gesto de Pan termino");
+    });
+
   return (
-    <ScrollView nestedScrollEnabled={true}>
-      <View>
-        <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-          <Text style={styles.title}>Area de programacion</Text>
-        </View>
-        <View>
-          <Carrusel typeMode={"parallax"} />
-        </View>
+    <View>
+      <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+        <Text style={styles.title}>Area de programacion</Text>
       </View>
-    </ScrollView>
+      <View>
+        <Carrusel />
+      </View>
+    </View>
   );
 };
 

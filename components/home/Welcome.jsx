@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import RecommendRoutes from "./RecommendRoutes";
-import data from "./../data";
+import data from "../datos";
 import Buttons from "./Buttons";
 import ProgrammingArea from "./ProgrammingArea";
 import Asesorias from "./Asesorias";

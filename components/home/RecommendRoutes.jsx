@@ -1,36 +1,18 @@
-import React, { useState } from "react";
-import { Card, Text } from "react-native-paper";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Link } from "expo-router";
+import React from "react";
+import { Text } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
 import Carrusel from "../carrusel/Carrusel";
 
 const RecommendRoutes = () => {
-  const [scrollEnabled, setScrollEnabled] = useState(true);
-
-  const handleCarouselTouchStart = () => {
-    setScrollEnabled(false);
-  };
-
-  const handleCarouselTouchEnd = () => {
-    setScrollEnabled(true);
-  };
-
   return (
-    <ScrollView
-      nestedScrollEnabled={true}
-      scrollEnabled={scrollEnabled}
-      onTouchStart={handleCarouselTouchStart}
-      onTouchEnd={handleCarouselTouchEnd}
-    >
-      <View style={{ marginHorizontal: 20, marginVertical: "auto" }}>
-        <View>
-          <Text style={styles.title}>Rutas Recomendadas</Text>
-        </View>
-        <View>
-          <Carrusel typeMode={"left-align"} />
-        </View>
+    <View>
+      <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+        <Text style={styles.title}>Rutas Recomendadas</Text>
       </View>
-    </ScrollView>
+      <View>
+        <Carrusel />
+      </View>
+    </View>
   );
 };
 

@@ -1,6 +1,6 @@
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { Stack, useGlobalSearchParams } from "expo-router";
-import data from "@/components/data";
+import datos from "@/components/datos";
 import CustomModal from "@/components/CustomModal";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ const DetailScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const params = useGlobalSearchParams();
   const idRuta = parseInt(params.id);
-  const searchValue = data.find((ruta) => ruta.id === idRuta);
+  const searchValue = datos.find((ruta) => ruta.id === idRuta);
 
   const handleClick = () => {
     setModalVisible(false);
