@@ -7,6 +7,7 @@ import Button from "../../components/login/Button";
 import { View } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { Stack } from "expo-router";
 
 export default function ResetPasswordScreen() {
   //     navigation.navigate('LoginScreen')
@@ -17,6 +18,11 @@ export default function ResetPasswordScreen() {
 
   return (
     <Background>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
       <Logo />
       <Header>Restaurar Contraseña</Header>
       <Formik

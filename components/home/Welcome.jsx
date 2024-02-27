@@ -1,17 +1,24 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import RecommendRoutes from "./RecommendRoutes";
 import data from "../datos";
 import Buttons from "./Buttons";
 import ProgrammingArea from "./ProgrammingArea";
 import Asesorias from "./Asesorias";
+import { GlobalContext } from "@/app/context/ScrollContext";
+import {
+  GestureHandlerRootView,
+  PanGestureHandler,
+  ScrollView,
+} from "react-native-gesture-handler";
 
 const Welcome = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [globalVariable] = React.useContext(GlobalContext);
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+    <ScrollView>
       <View>
         <View style={styles.content}>
           <Text style={styles.title}>Bienvenido Jose Ignacio</Text>
@@ -33,9 +40,6 @@ const Welcome = () => {
 };
 
 const styles = StyleSheet.create({
-  scrollViewContent: {
-    flexGrow: 1,
-  },
   content: {
     margin: 20,
     padding: 7,

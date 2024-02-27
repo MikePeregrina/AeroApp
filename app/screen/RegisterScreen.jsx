@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../../components/login/Background";
@@ -10,6 +10,7 @@ import { theme } from "../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { Stack } from "expo-router";
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -25,6 +26,11 @@ export default function RegisterScreen() {
 
   return (
     <Background>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
       <Logo />
       <Header>Crear Cuenta</Header>
       <Formik

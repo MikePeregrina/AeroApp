@@ -7,11 +7,17 @@ import Header from "../../components/login/Header";
 import Button from "../../components/login/Button";
 import Paragraph from "../../components/login/Paragraph";
 import { useRouter } from "expo-router";
+import { Stack } from "expo-router";
 
 export default function Login() {
   const router = useRouter();
   return (
     <Background>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
       <Logo />
       <Header>Aerobot Learning</Header>
       <Paragraph>

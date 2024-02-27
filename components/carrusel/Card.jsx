@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Button, Card } from "react-native-paper";
 
 const Cards = ({ products }) => {

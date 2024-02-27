@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../../components/login/Background";
@@ -10,6 +10,8 @@ import { theme } from "../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { Stack } from "expo-router";
+import { mockLogin } from "./../../components/MockApi";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -21,12 +23,17 @@ export default function LoginScreen() {
 
   return (
     <Background>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
       <Logo />
       <Header>Welcome back.</Header>
       <Formik
         initialValues={{ password: "", email: "" }}
         validationSchema={SignupSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => mockLogin(values)}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View style={{ width: "100%" }}>
