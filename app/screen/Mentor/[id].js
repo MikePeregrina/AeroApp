@@ -1,4 +1,4 @@
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+/*import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { Stack, useGlobalSearchParams } from "expo-router";
 import datos from "@/components/datos";
 import CustomModal from "@/components/CustomModal";
@@ -96,3 +96,4 @@ const styles = StyleSheet.create({
 });
 
 export default DetailScreen;
+*/
