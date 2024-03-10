@@ -1,17 +1,26 @@
+import { Link, useRouter } from "expo-router";
 import * as React from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Button, Card } from "react-native-paper";
 
-const Cards = ({ products }) => {
+const Cards = ({ curso }) => {
+  const router = useRouter();
+
   return (
     <Card style={styles.container}>
-      <Card.Cover
-        style={styles.cardContent}
-        source={{ uri: products.imgUrl }}
-      />
+      <Card.Cover style={styles.cardContent} source={{ uri: curso.imgUrl }} />
       <Card.Actions style={styles.cardButtons}>
-        <Button style={styles.buttons} labelStyle={styles.buttonText}>
-          Clase muestra
+        <Button
+          onPress={() =>
+            router.navigate({
+              pathname: "/screen/comprarcurso/HomeCursoSreen",
+              params: curso,
+            })
+          }
+          style={styles.buttons}
+          labelStyle={styles.buttonText}
+        >
+          Clase Muestra
         </Button>
         <Button style={styles.disableButton} disabled>
           Suscripcion(proximamente)

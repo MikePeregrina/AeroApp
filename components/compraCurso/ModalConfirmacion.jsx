@@ -2,36 +2,22 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Modal, View, Text, StyleSheet, Image } from "react-native";
 import { Button } from "react-native-paper";
-import { formatDate, formatTime } from "./calendario/FormatoDefechas";
 
-const CustomModal = ({ props }) => {
+const ModalConfirmacion = ({ props }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleOpenModal = () => {
     setModalVisible(true);
   };
 
-  const handleConfirm = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setModalVisible(false);
-      router.navigate({
-        pathname: "/screen/comprarcurso/MuestraMentor",
-        params: props,
-      });
-    }, 2000);
-  };
-
   return (
-    <View style={styles.container}>
+    <>
       <Button
-        style={styles.button}
-        labelStyle={{ color: "#ffffff" }}
         onPress={handleOpenModal}
+        labelStyle={{ color: "#ffffff" }}
+        style={styles.button1}
       >
-        Continuar
+        Agendar
       </Button>
       <Modal
         animationType="slide"
@@ -46,40 +32,40 @@ const CustomModal = ({ props }) => {
             <View style={{ width: 100, height: 100, marginBottom: 10 }}>
               <Image
                 style={{ width: "100%", height: "100%" }}
-                source={require("../assets/images/calendar.webp")}
+                source={require("@/assets/images/arrow.png")}
               />
             </View>
-            <Text style={styles.modalTitle}>CONFIRMACION DE FECHAS</Text>
-            <Text style={styles.dateText}>Tu curso inicia el dia: </Text>
-            <Text style={styles.dateText}>
-              {formatDate(props.fecha)} a las {formatTime(props.hora)} hrs
-            </Text>
+            <View style={{ marginVertical: 10, alignItems: "center" }}>
+              <Text style={styles.modalTitle}>Confirmacion de Curso</Text>
+              <Text style={styles.cursotitle}>
+                Haz comprado el siguiente curso:
+              </Text>
+              <Text style={styles.curso}>Curso HTML</Text>
+              <Text style={styles.dateText}>Tu curso inicia el dia: </Text>
+              <Text style={styles.time}>24/02/24 a las 15:00 hrs </Text>
+              <Text style={styles.mentorTitle}>
+                Se le notificaran al mentor agendado
+              </Text>
+            </View>
             <View style={styles.buttonsContainer}>
               <Button
-                style={{ width: 110 }}
-                labelStyle={{ color: "#FFFFFF" }}
-                contentStyle={{ backgroundColor: "#34da50" }}
-                onPress={handleConfirm}
+                labelStyle={{ color: "#ffffff" }}
+                contentStyle={{ backgroundColor: "#34b233" }}
               >
-                Confirmar
+                Confrimar
               </Button>
               <Button
                 labelStyle={{ color: "#FFFFFF" }}
                 contentStyle={{ backgroundColor: "#ff0000" }}
                 onPress={() => setModalVisible(false)}
               >
-                Cambiar Fecha
+                Cancelar
               </Button>
             </View>
           </View>
         </View>
       </Modal>
-      {loading && (
-        <View style={styles.loadingContainer}>
-          <Text>Loading...</Text>
-        </View>
-      )}
-    </View>
+    </>
   );
 };
 
@@ -89,14 +75,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  button: {
-    backgroundColor: "#ff7800",
-    marginVertical: 50,
-    borderRadius: 10,
-  },
-  buttons: {
-    color: "#ffffff",
   },
   modalContent: {
     marginHorizontal: 20,
@@ -111,16 +89,43 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
+  cursotitle: {
+    fontSize: 17,
+    fontWeight: "500",
+  },
+  curso: {
+    marginVertical: 5,
+    fontSize: 17,
+    fontWeight: "400",
+  },
+  mentorTitle: {
+    fontSize: 17,
+    fontWeight: "600",
+    marginVertical: 5,
+  },
   dateText: {
-    fontSize: 16,
-    marginBottom: 20,
+    marginVertical: 2,
+    fontSize: 17,
+    fontWeight: "600",
+  },
+  time: {
+    marginVertical: 2,
+    fontSize: 17,
+    fontWeight: "400",
+  },
+  button1: {
+    width: "90%",
+    marginTop: 14,
+    borderRadius: 10,
+    backgroundColor: "#fa8128",
   },
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    marginVertical: 15,
+    marginVertical: 5,
+    padding: 10,
   },
 });
 
-export default CustomModal;
+export default ModalConfirmacion;

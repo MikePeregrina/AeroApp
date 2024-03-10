@@ -5,7 +5,7 @@ const Perfil = () => {
   return (
     <View style={{ alignItems: "center" }}>
       <Text style={{ fontSize: 17, fontWeight: 600, marginVertical: 35 }}>
-        <Link href={"/screen/HomeLoginScreen"}>Iniciar sesion</Link>
+        <Link href={"/screen/login/HomeLoginScreen"}>Iniciar sesion</Link>
       </Text>
     </View>
   );

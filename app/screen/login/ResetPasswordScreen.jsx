@@ -1,9 +1,9 @@
 import React from "react";
-import Background from "../../components/login/Background";
-import Logo from "../../components/login/Logo";
-import Header from "../../components/login/Header";
-import TextInput from "../../components/login/TextInput";
-import Button from "../../components/login/Button";
+import Background from "../../../components/login/Background";
+import Logo from "../../../components/login/Logo";
+import Header from "../../../components/login/Header";
+import TextInput from "../../../components/login/TextInput";
+import Button from "../../../components/login/Button";
 import { View } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import { Dimensions, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import Cards from "./Card";
 import datos from "../datos";
@@ -10,26 +10,15 @@ const Carrusel = () => {
   const cardWidth = screenWidth * 0.8;
   const horizontalMargin = (screenWidth - cardWidth) / 2;
 
-  const handleGestureEvent = ({ nativeEvent }) => {
-    const { translationX, translationY } = nativeEvent;
-
-    // Detectamos el gesto de desplazamiento
-    if (Math.abs(translationX) > Math.abs(translationY)) {
-      console.log("Gesto de desplazamiento horizontal detectado");
-    } else {
-      console.log("Gesto de desplazamiento vertical detectado");
-    }
-  };
-
   return (
-    <PanGestureHandler onGestureEvent={handleGestureEvent}>
+    <PanGestureHandler>
       <View style={{ flex: 1 }}>
         <Carousel
           loop
           width={screenWidth}
           height={300}
           data={datos}
-          scrollAnimationDuration={1000}
+          scrollAnimationDuration={500}
           pagingEnabled={false}
           snapEnabled={false}
           autoPlay={false}
@@ -45,7 +34,7 @@ const Carrusel = () => {
                 marginHorizontal: horizontalMargin,
               }}
             >
-              <Cards products={item} />
+              <Cards curso={item} />
             </View>
           )}
         />

@@ -7,6 +7,7 @@ const datos = [
     prize: "139",
     learn: "Learn how to edit a video Interview",
     Requirements: "No video editinf or Premiere Pro Knowledge is necessary",
+    muestra: true,
     imgUrl:
       "https://uploads-ssl.webflow.com/635a453bdfb49358830950bd/635a463a9c53141574eedda6_template_imagen_curso.jpg",
   },
@@ -18,6 +19,7 @@ const datos = [
     prize: "200",
     learn: "Learn how to edit a video Interview",
     Requirements: "No video editinf or Premiere Pro Knowledge is necessary",
+    muestra: true,
     imgUrl: "https://astwellsoft.com/assets/images/blog/javascript.jpg",
   },
   {
@@ -28,6 +30,7 @@ const datos = [
     prize: "180",
     learn: "Learn how to edit a video Interview",
     Requirements: "No video editinf or Premiere Pro Knowledge is necessary",
+    muestra: true,
     imgUrl: "https://img-b.udemycdn.com/course/480x270/1693748_4c8f.jpg",
   },
   {
@@ -38,6 +41,7 @@ const datos = [
     prize: "149",
     learn: "Learn how to edit a video Interview",
     Requirements: "No video editinf or Premiere Pro Knowledge is necessary",
+    muestra: true,
     imgUrl:
       "https://cursosgratis.com.mx/wp-content/uploads/2022/01/que-es-y-para-que-sirven-las-derivadas-1024x576-1.jpeg",
   },
@@ -49,6 +53,7 @@ const datos = [
     prize: "250",
     learn: "Learn how to edit a video Interview",
     Requirements: "No video editinf or Premiere Pro Knowledge is necessary",
+    muestra: true,
     imgUrl: "https://i.ytimg.com/vi/chPhlsHoEPo/maxresdefault.jpg",
   },
   {
@@ -59,6 +64,7 @@ const datos = [
     prize: "155",
     learn: "Learn how to edit a video Interview",
     Requirements: "No video editinf or Premiere Pro Knowledge is necessary",
+    muestra: true,
     imgUrl: "https://i.ytimg.com/vi/4gw9KyEJ0BI/maxresdefault.jpg",
   },
   {
@@ -69,7 +75,9 @@ const datos = [
     prize: "129",
     learn: "Learn how to edit a video Interview",
     Requirements: "No video editinf or Premiere Pro Knowledge is necessary",
-    imgUrl: "https://i.imgur.com/2aj3V4s.png",
+    muestra: true,
+    imgUrl:
+      "https://losmejorescursosde.com/wp-content/uploads/2021/02/desarrollo-android.jpg",
   },
 ];
 

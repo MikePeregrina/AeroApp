@@ -1,12 +1,12 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
-import Background from "../../components/login/Background";
-import Logo from "../../components/login/Logo";
-import Header from "../../components/login/Header";
-import Button from "../../components/login/Button";
-import TextInput from "../../components/login/TextInput";
-import { theme } from "../../components/login/theme";
+import Background from "../../../components/login/Background";
+import Logo from "../../../components/login/Logo";
+import Header from "../../../components/login/Header";
+import Button from "../../../components/login/Button";
+import TextInput from "../../../components/login/TextInput";
+import { theme } from "../../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -79,7 +79,7 @@ export default function RegisterScreen() {
       <View style={styles.row}>
         <Text>Already have an account? </Text>
         <TouchableOpacity
-          onPress={() => router.navigate("/screen/LoginScreen")}
+          onPress={() => router.navigate("/screen/login/LoginScreen")}
         >
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
