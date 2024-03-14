@@ -15,8 +15,6 @@ const MuestraMentor = () => {
   const horaDate = new Date(cursoDescription.hora);
   const time = formatTime(horaDate);
 
-  console.log("cursoDescription: ", cursoDescription);
-
   const searchMentors = (subject, availableTime) => {
     const mentorsWithBoth = Mentores.filter(
       (mentor) =>
@@ -50,7 +48,7 @@ const MuestraMentor = () => {
           </View>
           <View style={styles.mentorContainer}>
             {mentorsWithTime.map((item, index) => (
-              <CardMentor key={index} props={item} />
+              <CardMentor key={index} props={item} horario={cursoDescription} />
             ))}
           </View>
         </View>
@@ -71,7 +69,7 @@ const MuestraMentor = () => {
           </View>
           <View style={styles.mentorContainer}>
             {mentorsWithoutTime.map((item, index) => (
-              <CardMentor key={index} props={item} />
+              <CardMentor key={index} props={item} horario={cursoDescription} />
             ))}
           </View>
         </View>

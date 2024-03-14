@@ -4,7 +4,7 @@ import { View, SafeAreaView, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
 import Welcome from "../../components/home/Welcome";
 import Logo from "../../components/logo/Logo";
-import { GlobalProvider } from "../context/ScrollContext";
+import { GlobalProvider } from "../context/GlobalProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Home = () => {

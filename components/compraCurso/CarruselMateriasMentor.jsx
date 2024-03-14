@@ -1,7 +1,6 @@
 import { Image, ScrollView, View, Text } from "react-native";
 
 const CarruselMateriasMentor = ({ props }) => {
-  console.log(props);
   return (
     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
       <View style={{ flexDirection: "row" }}>

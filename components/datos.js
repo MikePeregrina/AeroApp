@@ -67,6 +67,7 @@ const datos = [
     muestra: true,
     imgUrl: "https://i.ytimg.com/vi/4gw9KyEJ0BI/maxresdefault.jpg",
   },
+
   {
     id: 7,
     title: "Curso Android",
@@ -78,6 +79,17 @@ const datos = [
     muestra: true,
     imgUrl:
       "https://losmejorescursosde.com/wp-content/uploads/2021/02/desarrollo-android.jpg",
+  },
+  {
+    id: 8,
+    title: "Adobe Photoshop",
+    description: "Curso de Photoshop de 0 a 100",
+    body: "Aenean ut eros et nisl sagittis vestibulum. Donec posuere vulputate arcu. Proin faucibus arcu quis ante. Curabitur at lacus ac velit ornare lobortis. ",
+    prize: "155",
+    learn: "Learn how to edit a video Interview",
+    Requirements: "No video editinf or Premiere Pro Knowledge is necessary",
+    muestra: true,
+    imgUrl: "https://i.ytimg.com/vi/4gw9KyEJ0BI/maxresdefault.jpg",
   },
 ];
 

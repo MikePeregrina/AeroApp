@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import React, { useState } from "react";
 import { Modal, View, Text, StyleSheet, Image } from "react-native";
 import { Button } from "react-native-paper";

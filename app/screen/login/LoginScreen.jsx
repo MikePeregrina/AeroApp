@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import { Stack } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import { users } from "@/components/MockApi";
 
 export default function LoginScreen() {
   const [loading, setLoading] = React.useState(false);
@@ -27,42 +28,30 @@ export default function LoginScreen() {
     ToastAndroid.show(message, ToastAndroid.SHORT);
   }
 
-  const user = {
-    name: "Arturo Garcia",
-    correo: "correo@getNormalizedStatePath.com",
-    cursos: {
-      id: 1,
-      title: "Estructura de Datos",
-      description: "Estructura de datos para iniciantes",
-      body: "Phasellus ullamcorper ipsum rutrum nunc. Nullam quis ante. Etiam ultricies nisi vel augue. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc.",
-      prize: "180",
-      learn: "Learn how to edit a video Interview",
-      Requirements: "No video editinf or Premiere Pro Knowledge is necessary",
-      imgUrl: "https://img-b.udemycdn.com/course/480x270/1693748_4c8f.jpg",
-    },
-  };
-
   const mockLogin = async (values) => {
     const { email, password } = values;
     setLoading(true);
     try {
-      if (email === "correo@gmail.com" && password === "12345") {
-        const jsonDatosUsuario = JSON.stringify(user);
+      const userFound = users.find(
+        (user) => user.email === email && user.password === password
+      );
+      if (userFound) {
+        const jsonDatosUsuario = JSON.stringify(userFound);
         await AsyncStorage.setItem("@dataUsuario", jsonDatosUsuario);
-        showToast("Data save and load");
+        showToast("Data saved and loaded");
         setTimeout(() => {
           router.navigate("/(tabs)/Home");
           setLoading(false);
         }, 3000);
       } else {
         setTimeout(() => {
-          showToast("Data not found please try again!");
+          showToast("Data not found, please try again!");
           setLoading(false);
         }, 3000);
       }
     } catch (e) {
       setLoading(false);
-      console.error("Date not found", e);
+      console.error("Data not found", e);
     }
   };
 

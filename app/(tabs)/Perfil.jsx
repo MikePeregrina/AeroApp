@@ -1,13 +1,15 @@
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { GlobalProvider } from "../context/GlobalProvider";
+import React from "react";
+import Menu from "@/components/perfil/Menu";
 
 const Perfil = () => {
   return (
-    <View style={{ alignItems: "center" }}>
-      <Text style={{ fontSize: 17, fontWeight: 600, marginVertical: 35 }}>
-        <Link href={"/screen/login/HomeLoginScreen"}>Iniciar sesion</Link>
-      </Text>
-    </View>
+    <GlobalProvider>
+      <View>
+        <Menu />
+      </View>
+    </GlobalProvider>
   );
 };
 

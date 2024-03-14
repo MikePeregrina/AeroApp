@@ -9,20 +9,41 @@ import TextInput from "../../../components/login/TextInput";
 import { theme } from "../../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
-import * as Yup from "yup";
 import { Stack } from "expo-router";
-
+import { SignupSchema } from "@/components/login/ValidationSchema";
+import { users } from "@/components/MockApi";
+import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import Toast from "react-native-toast-message";
 export default function RegisterScreen() {
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
-  const SignupSchema = Yup.object().shape({
-    name: Yup.string()
-      .min(2, "Nombre demasiado corto!")
-      .max(50, "Nombre demasiado largo!")
-      .required("Campo Requerido"),
-    email: Yup.string().email("Correo Incorrecto").required("Campo Requerido"),
-    password: Yup.string().required("Campo Requerido"),
-  });
+  console.log("====================================");
+  console.log("Data sensual del usaurio", users);
+  console.log("====================================");
+
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "En hora Buena ✅",
+      text2: "Usuario Registrado Correctamente!",
+      position: "top",
+    });
+  };
+
+  const registerUser = async (userData) => {
+    setLoading(true);
+    try {
+      users.push(userData);
+      setTimeout(() => {
+        showToast();
+        setLoading(false);
+      }, 3000);
+    } catch (err) {
+      setLoading(false);
+      console.error("Error registering", err);
+    }
+  };
 
   return (
     <Background>
@@ -33,12 +54,19 @@ export default function RegisterScreen() {
       />
       <Logo />
       <Header>Crear Cuenta</Header>
+      <Toast />
       <Formik
-        initialValues={{ name: "", password: "", email: "" }}
+        initialValues={{
+          name: "",
+          password: "",
+          email: "",
+          age: "",
+          phone: "",
+        }}
         validationSchema={SignupSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => registerUser(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, resetForm }) => (
           <View style={{ width: "100%" }}>
             <TextInput
               name="name"
@@ -59,6 +87,20 @@ export default function RegisterScreen() {
               keyboardType="email-address"
             />
             <TextInput
+              name="age"
+              label="Edad"
+              returnKeyType="next"
+              onChangeText={handleChange("age")}
+              onBlur={handleBlur("age")}
+            />
+            <TextInput
+              name="phone"
+              label="Telefono"
+              returnKeyType="next"
+              onChangeText={handleChange("phone")}
+              onBlur={handleBlur("phone")}
+            />
+            <TextInput
               name="password"
               label="Contraseña"
               returnKeyType="done"
@@ -70,8 +112,13 @@ export default function RegisterScreen() {
               onPress={handleSubmit}
               mode="contained"
               style={{ marginTop: 24 }}
+              disable={loading}
             >
-              Sign Up
+              {!loading ? (
+                "Sign Up"
+              ) : (
+                <ActivityIndicator animating={true} color={MD2Colors.blue600} />
+              )}
             </Button>
           </View>
         )}

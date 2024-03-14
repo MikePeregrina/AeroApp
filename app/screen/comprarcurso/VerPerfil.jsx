@@ -8,7 +8,6 @@ import CarruselMateriasMentor from "@/components/compraCurso/CarruselMateriasMen
 
 const VerPerfil = () => {
   const [clases, setClases] = React.useState([]);
-  const horarios = [];
   const perfil = useGlobalSearchParams();
 
   const {
@@ -20,11 +19,7 @@ const VerPerfil = () => {
   } = perfil;
 
   const materiasSeleccionadas = materias.split(",");
-  horarios.push(horariosDisponibles);
-
-  React.useEffect(() => {
-    materiasMentor(materiasSeleccionadas);
-  }, [materias]);
+  const horarios = horariosDisponibles.split(",");
 
   const materiasMentor = (materias) => {
     if (!materias || materias.length === 0) {
@@ -36,6 +31,10 @@ const VerPerfil = () => {
     );
     setClases(materiasFiltradas);
   };
+
+  React.useEffect(() => {
+    materiasMentor(materiasSeleccionadas);
+  }, [materias]);
 
   return (
     <ScrollView>
@@ -57,11 +56,17 @@ const VerPerfil = () => {
         </View>
         <View>
           <Text style={styles.subtitle}>Horarios:</Text>
-          {horarios.map((horario, index) => (
-            <Button key={index} style={{ margin: 12, fontSize: 18 }}>
-              {horario}
-            </Button>
-          ))}
+          <View style={styles.containerHorarios}>
+            {horarios.map((horario, index) => (
+              <Button
+                key={index}
+                labelStyle={{ color: "#FFFFFF" }}
+                style={styles.button1}
+              >
+                {horario}
+              </Button>
+            ))}
+          </View>
         </View>
         <View style={{ marginVertical: 25, alignItems: "center" }}>
           <ModalConfirmacion />
@@ -103,14 +108,20 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     marginHorizontal: 10,
-    marginVertical: 10,
+    marginVertical: 20,
     fontSize: 20,
   },
   button1: {
-    width: "90%",
+    width: "40%",
     borderRadius: 10,
-    marginHorizontal: "5%",
-    backgroundColor: "#fa8128",
+    margin: "3%",
+    backgroundColor: "#24a0ed",
+  },
+  containerHorarios: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });
 

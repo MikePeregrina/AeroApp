@@ -3,9 +3,9 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import ModalConfirmacion from "./ModalConfirmacion";
 
-const CardMentor = ({ props }) => {
-  console.log(props);
+const CardMentor = ({ props, horario }) => {
   const { fotoPerfil, nombreCompleto } = props;
+
   return (
     <View>
       <View style={styles.cardContent}>

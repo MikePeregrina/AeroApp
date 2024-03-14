@@ -2,52 +2,30 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import RecommendRoutes from "./RecommendRoutes";
-import data from "../datos";
 import Buttons from "./Buttons";
 import ProgrammingArea from "./ProgrammingArea";
 import Asesorias from "./Asesorias";
 import { ScrollView } from "react-native-gesture-handler";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GlobalContext } from "@/app/context/GlobalProvider";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Welcome = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [user, setUser] = React.useState(null);
 
-  // React.useEffect(() => {
-  //   const obtenerDatosUsuario = async () => {
-  //     try {
-  //       const datosUsuario = await AsyncStorage.getItem("@dataUsuario");
-  //       const datosUsuarioParseados =
-  //         datosUsuario != null ? JSON.parse(datosUsuario) : null;
+  const { obtenerDatosUsuario, data } = React.useContext(GlobalContext);
 
-  //       setUser(datosUsuarioParseados);
-  //     } catch (error) {
-  //       console.error("Error al obtener los datos del usuario:", error);
-  //     }
-  //   };
-
-  //   obtenerDatosUsuario();
-  // }, []);
-
-  // console.log("Date of user", user);
-
-  const eliminarDatosUsuario = async () => {
-    try {
-      await AsyncStorage.removeItem("@dataUsuario");
-      console.log("Datos del usuario eliminados de la caché");
-    } catch (error) {
-      console.error("Error al eliminar los datos del usuario:", error);
-    }
-  };
+  useFocusEffect(
+    React.useCallback(() => {
+      obtenerDatosUsuario();
+    }, [])
+  );
 
   return (
     <ScrollView>
       <View>
         <View style={styles.content}>
-          {user ? (
-            <Text onPress={eliminarDatosUsuario} style={styles.title}>
-              Bienvenido {user.name}
-            </Text>
+          {data ? (
+            <Text style={styles.title}>Bienvenido {data.name}</Text>
           ) : (
             <Text style={styles.title}>Bienvenido</Text>
           )}

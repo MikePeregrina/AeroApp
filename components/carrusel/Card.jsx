@@ -1,27 +1,34 @@
-import { Link, useRouter } from "expo-router";
+import { GlobalContext } from "@/app/context/GlobalProvider";
+import { useRouter } from "expo-router";
 import * as React from "react";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "react-native-paper";
+import { ModalLogin } from "../home/ModalLogin";
 
 const Cards = ({ curso }) => {
+  const { data } = React.useContext(GlobalContext);
   const router = useRouter();
 
   return (
     <Card style={styles.container}>
       <Card.Cover style={styles.cardContent} source={{ uri: curso.imgUrl }} />
       <Card.Actions style={styles.cardButtons}>
-        <Button
-          onPress={() =>
-            router.navigate({
-              pathname: "/screen/comprarcurso/HomeCursoSreen",
-              params: curso,
-            })
-          }
-          style={styles.buttons}
-          labelStyle={styles.buttonText}
-        >
-          Clase Muestra
-        </Button>
+        {data ? (
+          <Button
+            onPress={() =>
+              router.navigate({
+                pathname: "/screen/comprarcurso/HomeCursoSreen",
+                params: curso,
+              })
+            }
+            style={styles.buttons}
+            labelStyle={styles.buttonText}
+          >
+            Clase Muestra
+          </Button>
+        ) : (
+          <ModalLogin />
+        )}
         <Button style={styles.disableButton} disabled>
           Suscripcion(proximamente)
         </Button>
