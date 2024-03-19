@@ -1,23 +1,35 @@
 const Mentores = [
   {
     id: 1,
-    nombreCompleto: "Juan Pérez",
+    nombreCompleto: "Alondra",
     fotoPerfil:
       "https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg",
     descripcion:
-      "Experto en desarrollo de aplicaciones móviles y diseño gráfico.",
-    materias: ["Curso Android", "Estructura de Datos", "Curso Javascript"],
+      "Hola Soy Alo, Lic. en Economía y Finanzas. Candidata de MBA y Figura 3 como Asesora en estrategias de inversión por la AMIB. Actualmente soy Analista de Inversiones en WTW en Chicago. ",
+    materias: [
+      "Finanzas personales",
+      "Inversiones",
+      "Emprendimiento",
+      "Administración empresarial",
+    ],
+    hobbies: [
+      "Bailar",
+      "Escuchar música",
+      "Leer",
+      "Viajar",
+      "Escuchar podcasts financieros y corporativos.",
+      "Ir de Shopping",
+    ],
     horariosDisponibles: ["10:00 AM", "12:00 PM", "2:00 PM", "4:00 PM"],
   },
   {
     id: 2,
-    nombreCompleto: "Yadira Andrade",
+    nombreCompleto: "Eric",
     fotoPerfil:
       "https://pics.craiyon.com/2023-06-20/89f79a8dee744596981e7417b8a7ea1d.webp",
     descripcion:
-      "Apasionada por la enseñanza de diseño gráfico y desarrollo web.",
+      "Hola, soy Eric, Ingeniero en Mecatrónica. Actualmente estudio la maestría en Electrónica y colaboro en distintos proyectos de investigación.",
     materias: ["Adobe Photoshop", "Curso HTML", "Curso Python"],
-    horariosDisponibles: ["11:00 AM", "1:00 PM", "3:30 PM", "5:00 PM"],
   },
   {
     id: 3,

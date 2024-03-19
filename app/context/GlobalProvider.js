@@ -5,6 +5,7 @@ export const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
   const [data, setData] = useState(null);
+  const [userData, setUserDate] = useState("");
 
   const obtenerDatosUsuario = async () => {
     try {
@@ -29,7 +30,14 @@ export const GlobalProvider = ({ children }) => {
 
   return (
     <GlobalContext.Provider
-      value={{ data, setData, obtenerDatosUsuario, eliminarDatosUsuario }}
+      value={{
+        data,
+        setData,
+        obtenerDatosUsuario,
+        eliminarDatosUsuario,
+        setUserDate,
+        userData,
+      }}
     >
       {children}
     </GlobalContext.Provider>

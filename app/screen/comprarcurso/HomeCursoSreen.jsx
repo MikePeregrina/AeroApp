@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, Image } from "react-native";
-import { useGlobalSearchParams, useRouter } from "expo-router";
+import { Stack, useGlobalSearchParams, useRouter } from "expo-router";
 import { Button } from "react-native-paper";
 
 const HomeCursoSreen = () => {
@@ -10,6 +10,7 @@ const HomeCursoSreen = () => {
 
   return (
     <View>
+      <Stack.Screen options={{ title: "" }} />
       <View style={{ width: "100%" }}>
         <Image
           style={{ width: "100%", height: 220 }}
@@ -35,7 +36,7 @@ const HomeCursoSreen = () => {
             labelStyle={{ fontSize: 16 }}
             onPress={() =>
               router.navigate({
-                pathname: "/screen/comprarcurso/SelectFecha",
+                pathname: "/screen/comprarcurso/ObjetivoUsuario",
                 params: {
                   curso: title,
                 },

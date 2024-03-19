@@ -3,8 +3,10 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import ModalConfirmacion from "./ModalConfirmacion";
 
-const CardMentor = ({ props, horario }) => {
+const CardMentor = ({ props, disable, horario }) => {
   const { fotoPerfil, nombreCompleto } = props;
+  console.log("este es el horario", horario);
+  const dataTotal = { ...props, ...horario };
 
   return (
     <View>
@@ -23,12 +25,12 @@ const CardMentor = ({ props, horario }) => {
         </View>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.name}>{nombreCompleto}</Text>
-          <ModalConfirmacion />
+          <ModalConfirmacion props={dataTotal} />
           <Button
             onPress={() => {
               router.navigate({
                 pathname: "/screen/comprarcurso/VerPerfil",
-                params: props,
+                params: { ...props, disable, dataTotal },
               });
             }}
             labelStyle={{ color: "#ffffff" }}

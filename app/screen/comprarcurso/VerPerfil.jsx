@@ -2,7 +2,7 @@ import React from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useGlobalSearchParams } from "expo-router";
 import { Button } from "react-native-paper";
-import ModalConfirmacion from "./../../../components/compraCurso/ModalConfirmacion";
+import ModalConfirmacion from "@/components/compraCurso/ModalConfirmacion";
 import datos from "@/components/datos";
 import CarruselMateriasMentor from "@/components/compraCurso/CarruselMateriasMentor";
 
@@ -16,6 +16,7 @@ const VerPerfil = () => {
     horariosDisponibles,
     materias,
     nombreCompleto,
+    disable,
   } = perfil;
 
   const materiasSeleccionadas = materias.split(",");
@@ -62,6 +63,8 @@ const VerPerfil = () => {
                 key={index}
                 labelStyle={{ color: "#FFFFFF" }}
                 style={styles.button1}
+                onPress={() => console.log("Botton desactivado")}
+                disabled={Boolean(disable)}
               >
                 {horario}
               </Button>

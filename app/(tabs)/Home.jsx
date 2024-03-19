@@ -6,6 +6,8 @@ import Welcome from "../../components/home/Welcome";
 import Logo from "../../components/logo/Logo";
 import { GlobalProvider } from "../context/GlobalProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import DrawerLayout from "@/components/Menu/DrawerLayout";
+import MenuComponent from "@/components/Menu/MenuComponent";
 
 const Home = () => {
   return (
@@ -22,6 +24,7 @@ const Home = () => {
                 headerStyle: { backgroundColor: "#F8F8F8" },
                 headerShadowVisible: true,
                 headerTitle: (props) => <Logo />,
+                headerRight: () => <MenuComponent />,
               }}
             />
             <Welcome />

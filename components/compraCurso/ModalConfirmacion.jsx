@@ -5,6 +5,8 @@ import { Button } from "react-native-paper";
 const ModalConfirmacion = ({ props }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  console.log("props de la modal", props);
+
   const handleOpenModal = () => {
     setModalVisible(true);
   };

@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, View, ToastAndroid } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../../../components/login/Background";
 import Logo from "../../../components/login/Logo";
@@ -9,49 +9,39 @@ import TextInput from "../../../components/login/TextInput";
 import { theme } from "../../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
-import * as Yup from "yup";
 import { Stack } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import { SignupSchema } from "@/components/login/ValidationSchema";
 import { users } from "@/components/MockApi";
-
-export default function LoginScreen() {
+import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import Toast from "react-native-toast-message";
+export default function LoginScreenMentor() {
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
-  const SignupSchema = Yup.object().shape({
-    email: Yup.string().email("Correo Incorrecto").required("Campo Requerido"),
-    password: Yup.string().required("Campo Requerido"),
-  });
+  console.log("====================================");
+  console.log("Data sensual del usaurio", users);
+  console.log("====================================");
 
-  function showToast(message) {
-    ToastAndroid.show(message, ToastAndroid.SHORT);
-  }
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "En hora Buena ✅",
+      text2: "Usuario Registrado Correctamente!",
+      position: "top",
+    });
+  };
 
-  const mockLogin = async (values) => {
-    const { email, password } = values;
+  const registerUser = async (userData) => {
     setLoading(true);
     try {
-      const userFound = users.find(
-        (user) => user.email === email && user.password === password
-      );
-      if (userFound) {
-        const jsonDatosUsuario = JSON.stringify(userFound);
-        await AsyncStorage.setItem("@dataUsuario", jsonDatosUsuario);
-        showToast("Data saved and loaded");
-        setTimeout(() => {
-          router.navigate("/(tabs)/Home");
-          setLoading(false);
-        }, 3000);
-      } else {
-        setTimeout(() => {
-          showToast("Data not found, please try again!");
-          setLoading(false);
-        }, 3000);
-      }
-    } catch (e) {
+      users.push(userData);
+      setTimeout(() => {
+        showToast();
+        setLoading(false);
+      }, 3000);
+    } catch (err) {
       setLoading(false);
-      console.error("Data not found", e);
+      console.error("Error registering", err);
     }
   };
 
@@ -63,14 +53,28 @@ export default function LoginScreen() {
         }}
       />
       <Logo />
-      <Header>Welcome back.</Header>
+      <Header>Crear Cuenta Mentor</Header>
+      <Toast />
       <Formik
-        initialValues={{ password: "", email: "" }}
+        initialValues={{
+          name: "",
+          password: "",
+          email: "",
+          age: "",
+          phone: "",
+        }}
         validationSchema={SignupSchema}
-        onSubmit={(values) => mockLogin(values)}
+        onSubmit={(values) => registerUser(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, resetForm }) => (
           <View style={{ width: "100%" }}>
+            <TextInput
+              name="name"
+              label="Nombre"
+              returnKeyType="next"
+              onChangeText={handleChange("name")}
+              onBlur={handleBlur("name")}
+            />
             <TextInput
               name="email"
               label="Correo"
@@ -83,6 +87,20 @@ export default function LoginScreen() {
               keyboardType="email-address"
             />
             <TextInput
+              name="age"
+              label="Edad"
+              returnKeyType="next"
+              onChangeText={handleChange("age")}
+              onBlur={handleBlur("age")}
+            />
+            <TextInput
+              name="phone"
+              label="Telefono"
+              returnKeyType="next"
+              onChangeText={handleChange("phone")}
+              onBlur={handleBlur("phone")}
+            />
+            <TextInput
               name="password"
               label="Contraseña"
               returnKeyType="done"
@@ -90,23 +108,14 @@ export default function LoginScreen() {
               onBlur={handleBlur("password")}
               secureTextEntry
             />
-            <View style={styles.forgotPassword}>
-              <TouchableOpacity
-                onPress={() =>
-                  router.replace("/screen/login/ResetPasswordScreen")
-                }
-              >
-                <Text style={styles.forgot}>Forgot your password?</Text>
-              </TouchableOpacity>
-            </View>
             <Button
               onPress={handleSubmit}
-              style={{ backgroundColor: "#2196F3" }}
               mode="contained"
+              style={{ marginTop: 24, backgroundColor: "#2196F3" }}
               disable={loading}
             >
               {!loading ? (
-                "Login"
+                "Registrarse"
               ) : (
                 <ActivityIndicator animating={true} color={MD2Colors.blue600} />
               )}
@@ -115,11 +124,11 @@ export default function LoginScreen() {
         )}
       </Formik>
       <View style={styles.row}>
-        <Text>Don’t have an account? </Text>
+        <Text>Already have an account? </Text>
         <TouchableOpacity
-          onPress={() => router.replace("/screen/login/RegisterScreen")}
+          onPress={() => router.navigate("/screen/login/LoginScreen")}
         >
-          <Text style={styles.link}>Sign up</Text>
+          <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
       </View>
     </Background>
@@ -127,18 +136,9 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  forgotPassword: {
-    width: "100%",
-    alignItems: "flex-end",
-    marginBottom: 24,
-  },
   row: {
     flexDirection: "row",
     marginTop: 4,
-  },
-  forgot: {
-    fontSize: 13,
-    color: theme.colors.secondary,
   },
   link: {
     fontWeight: "bold",

@@ -11,7 +11,6 @@ export default function Button({ disable, mode, style, ...props }) {
         mode === "outlined" && { backgroundColor: theme.colors.surface },
         style,
       ]}
-      labelStyle={styles.text}
       disabled={disable}
       mode={mode}
       {...props}
@@ -25,10 +24,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingVertical: 2,
     borderRadius: 8,
-  },
-  text: {
-    fontWeight: "bold",
-    fontSize: 15,
-    lineHeight: 26,
   },
 });

@@ -9,7 +9,7 @@ const Calendario = ({ props }) => {
   const [time, setTime] = useState(new Date());
 
   const data = {
-    curso: props.curso,
+    ...props,
     fecha: date,
     hora: time,
   };

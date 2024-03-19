@@ -1,11 +1,13 @@
 //** Aqui es donde se mostrara si encuentra o no mentor  */
 
 import { useGlobalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { formatTime } from "@/components/calendario/FormatoDefechas";
 import CardMentor from "@/components/compraCurso/CardMentor";
 import Mentores from "@/components/Mentores";
+import { Stack } from "expo-router";
+import { GlobalContext, GlobalProvider } from "@/app/context/GlobalProvider";
 
 const MuestraMentor = () => {
   const cursoDescription = useGlobalSearchParams();
@@ -38,6 +40,7 @@ const MuestraMentor = () => {
 
   return (
     <View>
+      <Stack.Screen options={{ title: "" }} />
       {mentorsWithTime.length ? (
         <View>
           <View style={styles.container}>
@@ -48,7 +51,12 @@ const MuestraMentor = () => {
           </View>
           <View style={styles.mentorContainer}>
             {mentorsWithTime.map((item, index) => (
-              <CardMentor key={index} props={item} horario={cursoDescription} />
+              <CardMentor
+                key={index}
+                props={item}
+                horario={cursoDescription}
+                disable={true}
+              />
             ))}
           </View>
         </View>
@@ -69,7 +77,7 @@ const MuestraMentor = () => {
           </View>
           <View style={styles.mentorContainer}>
             {mentorsWithoutTime.map((item, index) => (
-              <CardMentor key={index} props={item} horario={cursoDescription} />
+              <CardMentor key={index} props={item} disable={false} />
             ))}
           </View>
         </View>

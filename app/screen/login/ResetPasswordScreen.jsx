@@ -47,7 +47,7 @@ export default function ResetPasswordScreen() {
             <Button
               onPress={handleSubmit}
               mode="contained"
-              style={{ marginTop: 16 }}
+              style={{ marginTop: 16, backgroundColor: "#2196F3" }}
             >
               Enviar instrucciones
             </Button>

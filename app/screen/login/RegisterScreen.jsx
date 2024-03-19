@@ -111,7 +111,7 @@ export default function RegisterScreen() {
             <Button
               onPress={handleSubmit}
               mode="contained"
-              style={{ marginTop: 24 }}
+              style={{ marginTop: 24, backgroundColor: "#2196F3" }}
               disable={loading}
             >
               {!loading ? (
