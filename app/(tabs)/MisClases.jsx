@@ -1,5 +1,5 @@
 import { Image, Text, View } from "react-native";
-import IMG from "../../assets/images/bookicon.jpg";
+import IMG from "../assets/images/bookicon.jpg";
 
 const MisClases = () => {
   return (

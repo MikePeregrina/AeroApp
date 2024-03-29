@@ -1,29 +1,31 @@
-import Mentores from "@/components/Mentores";
+import Mentores from "../../components/Mentores";
 import { router } from "expo-router";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
+import { Stack } from "expo-router";
 
 const VerCursos = () => {
   return (
     <ScrollView>
+      <Stack.Screen options={{ title: "" }} />
       <View>
         {Mentores.map((data, index) => (
-          <View
-            key={index}
-            style={styles.card}
-            onPress={() =>
-              router.navigate({
-                pathname: "/screen/comprarcurso/HomeCursoSreen",
-                params: data,
-              })
-            }
-          >
+          <View key={index} style={styles.card}>
             <View style={styles.imageContainer}>
               <Image style={styles.image} source={{ uri: data.fotoPerfil }} />
             </View>
             <View style={styles.contentContainer}>
               <Text style={styles.name}>{data.nombreCompleto}</Text>
-              <Button style={styles.button} labelStyle={{ color: "#FFFFFF" }}>
+              <Button
+                style={styles.button}
+                labelStyle={{ color: "#FFFFFF" }}
+                onPress={() =>
+                  router.navigate({
+                    pathname: "/screen/vercursomaster/VerPerfilMaster",
+                    params: data,
+                  })
+                }
+              >
                 Ver Perfil
               </Button>
             </View>

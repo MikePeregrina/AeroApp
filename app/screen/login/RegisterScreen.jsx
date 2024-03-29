@@ -1,26 +1,28 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Text } from "react-native-paper";
-import Background from "../../../components/login/Background";
-import Logo from "../../../components/login/Logo";
-import Header from "../../../components/login/Header";
-import Button from "../../../components/login/Button";
-import TextInput from "../../../components/login/TextInput";
-import { theme } from "../../../components/login/theme";
+import Background from "../../components/login/Background";
+import Button from "../../components/login/Button";
+import { theme } from "../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import { Stack } from "expo-router";
-import { SignupSchema } from "@/components/login/ValidationSchema";
-import { users } from "@/components/MockApi";
-import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import { SignupSchema } from "../../components/login/ValidationSchema";
+import { users } from "../../components/MockApi";
+import { ActivityIndicator, MD2Colors, TextInput } from "react-native-paper";
 import Toast from "react-native-toast-message";
+import MultiSelectComponent from "@/app/components/login/MultiSelectComponent";
+import IMG from "../../assets/login/wido app-07.png";
+
 export default function RegisterScreen() {
   const [loading, setLoading] = React.useState(false);
+  const [select, setSelect] = React.useState(false);
+  const [text, setText] = React.useState("");
   const router = useRouter();
 
-  console.log("====================================");
-  console.log("Data sensual del usaurio", users);
-  console.log("====================================");
+  const handleSelect = (selectItems) => {
+    setSelect(selectItems);
+  };
 
   const showToast = () => {
     Toast.show({
@@ -46,14 +48,14 @@ export default function RegisterScreen() {
   };
 
   return (
-    <Background>
+    <ScrollView>
+      {/* <Background image={IMG}> */}
       <Stack.Screen
         options={{
           headerShown: false,
+          statusBarTranslucent: true,
         }}
       />
-      <Logo />
-      <Header>Crear Cuenta</Header>
       <Toast />
       <Formik
         initialValues={{
@@ -67,47 +69,34 @@ export default function RegisterScreen() {
         onSubmit={(values) => registerUser(values)}
       >
         {({ handleChange, handleBlur, handleSubmit, values, resetForm }) => (
-          <View style={{ width: "100%" }}>
-            <TextInput
-              name="name"
-              label="Nombre"
-              returnKeyType="next"
-              onChangeText={handleChange("name")}
-              onBlur={handleBlur("name")}
-            />
-            <TextInput
-              name="email"
-              label="Correo"
-              returnKeyType="next"
-              onChangeText={handleChange("email")}
-              onBlur={handleBlur("email")}
-              autoCapitalize="none"
-              autoCompleteType="email"
-              textContentType="emailAddress"
-              keyboardType="email-address"
-            />
-            <TextInput
-              name="age"
-              label="Edad"
-              returnKeyType="next"
-              onChangeText={handleChange("age")}
-              onBlur={handleBlur("age")}
-            />
-            <TextInput
-              name="phone"
-              label="Telefono"
-              returnKeyType="next"
-              onChangeText={handleChange("phone")}
-              onBlur={handleBlur("phone")}
-            />
-            <TextInput
-              name="password"
-              label="Contraseña"
-              returnKeyType="done"
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              secureTextEntry
-            />
+          <View style={{ width: "100%", flex: 1 }}>
+            <View
+              style={{
+                borderWidth: 1,
+                borderRadius: 10,
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                padding: 14,
+                marginVertical: 80,
+              }}
+            >
+              <Text style={{ color: "#FFFFFF", text }}>Crear Cuenta</Text>
+              <TextInput
+                label="Email"
+                value={text}
+                onChangeText={(text) => setText(text)}
+              />
+              <TextInput
+                label="Email"
+                value={text}
+                onChangeText={(text) => setText(text)}
+              />
+              <TextInput
+                label="Email"
+                value={text}
+                onChangeText={(text) => setText(text)}
+              />
+            </View>
+            {/* <MultiSelectComponent onSelectChange={handleSelect} /> */}
             <Button
               onPress={handleSubmit}
               mode="contained"
@@ -117,7 +106,7 @@ export default function RegisterScreen() {
               {!loading ? (
                 "Sign Up"
               ) : (
-                <ActivityIndicator animating={true} color={MD2Colors.blue600} />
+                <ActivityIndicator animating={true} color={MD2Colors.white} />
               )}
             </Button>
           </View>
@@ -131,7 +120,8 @@ export default function RegisterScreen() {
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
       </View>
-    </Background>
+      {/* </Background> */}
+    </ScrollView>
   );
 }
 

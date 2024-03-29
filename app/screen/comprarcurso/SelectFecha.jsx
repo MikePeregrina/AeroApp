@@ -1,4 +1,4 @@
-import Calendario from "@/components/calendario/Calendario";
+import Calendario from "../../components/calendario/Calendario";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useGlobalSearchParams, Stack } from "expo-router";

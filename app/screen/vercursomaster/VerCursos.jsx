@@ -1,5 +1,6 @@
-import datos from "@/components/datos";
-import { router } from "expo-router";
+import datos from "../../components/datos";
+import { router, Stack } from "expo-router";
+import Toast from "react-native-toast-message";
 import {
   Image,
   ScrollView,
@@ -8,20 +9,44 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { useContext } from "react";
+import { GlobalContext } from "@/context/GlobalProvider";
 
 const VerCursos = () => {
+  const { data } = useContext(GlobalContext);
+
+  console.log(data);
+
+  const showToast = () => {
+    Toast.show({
+      type: "info",
+      text1: "Lo sentimos ❌",
+      text2: "Debes iniciar sesion primero!",
+      position: "top",
+      visibilityTime: 2000,
+    });
+  };
+
+  const handleLogin = (datos) => {
+    if (data) {
+      router.navigate({
+        pathname: "/screen/comprarcurso/HomeCursoSreen",
+        params: datos,
+      });
+    } else {
+      console.log("no hay data");
+      showToast();
+    }
+  };
+
   return (
     <ScrollView>
+      <Stack.Screen options={{ title: "" }} />
       <View>
         {datos.map((data, index) => (
           <TouchableWithoutFeedback
             key={index}
-            onPress={() =>
-              router.navigate({
-                pathname: "/screen/comprarcurso/HomeCursoSreen",
-                params: data,
-              })
-            }
+            onPress={() => handleLogin(data)}
             activeOpacity={0.9}
           >
             <View style={styles.card}>
@@ -36,6 +61,7 @@ const VerCursos = () => {
           </TouchableWithoutFeedback>
         ))}
       </View>
+      <Toast />
     </ScrollView>
   );
 };

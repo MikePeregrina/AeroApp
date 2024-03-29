@@ -2,9 +2,10 @@ import React from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useGlobalSearchParams } from "expo-router";
 import { Button } from "react-native-paper";
-import ModalConfirmacion from "@/components/compraCurso/ModalConfirmacion";
-import datos from "@/components/datos";
-import CarruselMateriasMentor from "@/components/compraCurso/CarruselMateriasMentor";
+import ModalConfirmacion from "../../components/compraCurso/ModalConfirmacion";
+import datos from "../../components/datos";
+import CarruselMateriasMentor from "../../components/compraCurso/CarruselMateriasMentor";
+import { Stack } from "expo-router";
 
 const VerPerfil = () => {
   const [clases, setClases] = React.useState([]);
@@ -39,6 +40,7 @@ const VerPerfil = () => {
 
   return (
     <ScrollView>
+      <Stack.Screen options={{ title: "" }} />
       <View style={styles.container}>
         <Image
           style={{ width: "100%", height: 400 }}
@@ -72,7 +74,7 @@ const VerPerfil = () => {
           </View>
         </View>
         <View style={{ marginVertical: 25, alignItems: "center" }}>
-          <ModalConfirmacion />
+          <ModalConfirmacion props={nombreCompleto} />
         </View>
       </View>
     </ScrollView>

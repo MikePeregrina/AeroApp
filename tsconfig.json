@@ -14,8 +14,8 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts", 
-    "app/index.jsx", "**/*.tsx",
-    "app/index.jsx", "**/*.jsx", "app/context/useContext.js", "app/screen/Mentor/[id].js", "components/login/Paragraph.js", "components/login/TextInput.js",
+    "App.jsx", "**/*.tsx",
+    "App.jsx", "**/*.jsx", "context/useContext.js", "app/screen/Mentor/[id].js", "components/login/Paragraph.js", "components/login/TextInput.js",
   ],
   "exclude": ["node_modules"]
 }

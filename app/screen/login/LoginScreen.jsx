@@ -1,19 +1,24 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, View, ToastAndroid } from "react-native";
-import { Text } from "react-native-paper";
-import Background from "../../../components/login/Background";
-import Logo from "../../../components/login/Logo";
-import Header from "../../../components/login/Header";
-import Button from "../../../components/login/Button";
-import TextInput from "../../../components/login/TextInput";
-import { theme } from "../../../components/login/theme";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  ToastAndroid,
+  Text,
+} from "react-native";
+import Background from "../../components/login/Background";
+import Button from "../../components/login/Button";
+import { Button as FormButton } from "react-native-paper";
+import TextInput from "../../components/login/TextInput";
+import { theme } from "../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Stack } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
-import { users } from "@/components/MockApi";
+import { users } from "../../components/MockApi";
+import IMAGE from "../../assets/login/wido app-06.png";
 
 export default function LoginScreen() {
   const [loading, setLoading] = React.useState(false);
@@ -56,14 +61,18 @@ export default function LoginScreen() {
   };
 
   return (
-    <Background>
+    <Background image={IMAGE}>
       <Stack.Screen
         options={{
           headerShown: false,
+          statusBarTranslucent: true,
         }}
       />
-      <Logo />
-      <Header>Welcome back.</Header>
+      <View style={styles.tittle}>
+        <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+          ¡HOLA DE NUEVO!
+        </Text>
+      </View>
       <Formik
         initialValues={{ password: "", email: "" }}
         validationSchema={SignupSchema}
@@ -99,28 +108,47 @@ export default function LoginScreen() {
                 <Text style={styles.forgot}>Forgot your password?</Text>
               </TouchableOpacity>
             </View>
-            <Button
-              onPress={handleSubmit}
-              style={{ backgroundColor: "#2196F3" }}
-              mode="contained"
-              disable={loading}
-            >
-              {!loading ? (
-                "Login"
-              ) : (
-                <ActivityIndicator animating={true} color={MD2Colors.blue600} />
-              )}
-            </Button>
+            <View style={{ alignItems: "center" }}>
+              <Button
+                onPress={handleSubmit}
+                style={{ backgroundColor: "#4F7CAC", color: "#FEC400" }}
+                mode="contained"
+                disable={loading}
+              >
+                {!loading ? (
+                  "Iniciar Sesion"
+                ) : (
+                  <ActivityIndicator animating={true} color={MD2Colors.white} />
+                )}
+              </Button>
+            </View>
           </View>
         )}
       </Formik>
-      <View style={styles.row}>
-        <Text>Don’t have an account? </Text>
-        <TouchableOpacity
-          onPress={() => router.replace("/screen/login/RegisterScreen")}
+      <View>
+        <View style={styles.row}>
+          <Text>¿Aun no tienes cuenta? </Text>
+          <TouchableOpacity
+            onPress={() => router.replace("/screen/login/RegisterScreen")}
+          >
+            <Text style={styles.link}>Registrate aquí</Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            position: "absolute",
+            top: 60,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <Text style={styles.link}>Sign up</Text>
-        </TouchableOpacity>
+          <FormButton
+            style={{ backgroundColor: "#2E3532" }}
+            labelStyle={{ color: "#FFFFFF" }}
+          >
+            Soy Master Teach
+          </FormButton>
+        </View>
       </View>
     </Background>
   );
@@ -142,6 +170,16 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: "bold",
-    color: theme.colors.primary,
+    color: "#4F7CAC",
+  },
+  tittle: {
+    width: 220,
+    height: 40,
+    marginTop: "80%",
+    marginBottom: "10%",
+    borderWidth: 1,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

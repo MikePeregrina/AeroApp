@@ -1,17 +1,17 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
-import Background from "../../../components/login/Background";
-import Logo from "../../../components/login/Logo";
-import Header from "../../../components/login/Header";
-import Button from "../../../components/login/Button";
-import TextInput from "../../../components/login/TextInput";
-import { theme } from "../../../components/login/theme";
+import Background from "../../components/login/Background";
+import Logo from "../../components/login/Logo";
+import Header from "../../components/login/Header";
+import Button from "../../components/login/Button";
+import TextInput from "../../components/login/TextInput";
+import { theme } from "../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import { Stack } from "expo-router";
-import { SignupSchema } from "@/components/login/ValidationSchema";
-import { users } from "@/components/MockApi";
+import { SignupSchema } from "../../components/login/ValidationSchema";
+import { users } from "../../components/MockApi";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import Toast from "react-native-toast-message";
 export default function LoginScreenMentor() {

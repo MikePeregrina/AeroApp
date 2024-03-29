@@ -2,35 +2,27 @@ import "react-native-gesture-handler";
 import React from "react";
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
-import Welcome from "../../components/home/Welcome";
-import Logo from "../../components/logo/Logo";
-import { GlobalProvider } from "../context/GlobalProvider";
+import Welcome from "../components/home/Welcome";
+import MenuComponent from "../components/Menu/MenuComponent";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import DrawerLayout from "@/components/Menu/DrawerLayout";
-import MenuComponent from "@/components/Menu/MenuComponent";
 
 const Home = () => {
   return (
     <GestureHandlerRootView>
-      <GlobalProvider>
-        <SafeAreaView>
-          <View
-            style={{
-              backgroundColor: "#ffffff",
+      <SafeAreaView>
+        <View
+          style={{
+            backgroundColor: "#ffffff",
+          }}
+        >
+          <Stack.Screen
+            options={{
+              headerShown: false,
             }}
-          >
-            <Stack.Screen
-              options={{
-                headerStyle: { backgroundColor: "#F8F8F8" },
-                headerShadowVisible: true,
-                headerTitle: (props) => <Logo />,
-                headerRight: () => <MenuComponent />,
-              }}
-            />
-            <Welcome />
-          </View>
-        </SafeAreaView>
-      </GlobalProvider>
+          />
+          <Welcome />
+        </View>
+      </SafeAreaView>
     </GestureHandlerRootView>
   );
 };
