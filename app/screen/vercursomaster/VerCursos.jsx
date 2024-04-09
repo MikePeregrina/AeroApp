@@ -15,8 +15,6 @@ import { GlobalContext } from "@/context/GlobalProvider";
 const VerCursos = () => {
   const { data } = useContext(GlobalContext);
 
-  console.log(data);
-
   const showToast = () => {
     Toast.show({
       type: "info",

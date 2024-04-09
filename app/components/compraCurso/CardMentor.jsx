@@ -28,7 +28,7 @@ const CardMentor = ({ props, disable }) => {
           <Button
             onPress={() => {
               router.navigate({
-                pathname: "/screen/comprarcurso/VerPerfil",
+                pathname: "/screen/vercursomaster/VerPerfilMaster",
                 params: data,
               });
             }}

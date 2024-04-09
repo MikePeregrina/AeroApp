@@ -1,4 +1,5 @@
 import { GlobalContext } from "@/context/GlobalProvider";
+import { router } from "expo-router";
 import React, { useContext, useState } from "react";
 import { Modal, View, Text, StyleSheet, Image, Linking } from "react-native";
 import { Button } from "react-native-paper";
@@ -24,6 +25,10 @@ const ModalConfirmacion = (nombreCompleto) => {
     try {
       await Linking.openURL(url);
       console.log("WhatsApp abierto exitosamente");
+      setTimeout(() => {
+        router.replace("/(tabs)/Home");
+        console.log("Redirigiendo al usuario a la página principal");
+      }, 3000);
     } catch (error) {
       console.error("Error al abrir WhatsApp:", error);
     }

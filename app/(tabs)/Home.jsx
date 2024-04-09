@@ -3,7 +3,6 @@ import React from "react";
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
 import Welcome from "../components/home/Welcome";
-import MenuComponent from "../components/Menu/MenuComponent";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Home = () => {

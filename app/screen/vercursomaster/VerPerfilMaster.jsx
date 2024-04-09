@@ -5,13 +5,19 @@ import { useGlobalSearchParams } from "expo-router";
 import { Stack } from "expo-router";
 
 import Carrusel from "@/app/components/carrusel/Carrusel";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import TextwithNBorder from "@/app/components/perfil/TextwithNBorder";
 
 const VerPerfilMaster = () => {
   const mentorDescription = useGlobalSearchParams();
 
-  const { nombreCompleto, fotoPerfil, descripcion } = mentorDescription;
+  const {
+    descripcion,
+    fotoPerfil,
+    horariosDisponibles,
+    materias,
+    nombreCompleto,
+    disable,
+  } = mentorDescription;
   const name = nombreCompleto.toUpperCase();
 
   console.log("====================================");

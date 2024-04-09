@@ -1,48 +1,70 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../../components/login/Background";
-import Header from "../../components/login/Header";
 import Button from "../../components/login/Button";
-import TextInput from "../../components/login/TextInput";
 import { theme } from "../../components/login/theme";
-import { useRouter } from "expo-router";
-import { Formik } from "formik";
-import { Stack } from "expo-router";
-import { SignupSchema } from "../../components/login/ValidationSchema";
+import { router, Stack, useGlobalSearchParams } from "expo-router";
 import { users } from "../../components/MockApi";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import Toast from "react-native-toast-message";
-import MultiSelectComponent from "@/app/components/login/MultiSelectComponent";
+import IMG from "../../assets/login/wido app-07.png";
+import MultiSelectCheckbox from "@/app/components/login/MultiSelectCheckbox";
 
-export default function RegisterScreen2() {
-  const [loading, setLoading] = React.useState(false);
-  const [select, setSelect] = React.useState(false);
-  const router = useRouter();
+export default function RegisterScreen() {
+  const form = useGlobalSearchParams();
+  const [loading, setLoading] = useState(false);
+  const [selectedValues, setSelectedValues] = useState([]);
+  console.log(users);
 
-  const handleSelect = (selectItems) => {
-    setSelect(selectItems);
-  };
+  const data = [
+    "Tecnologia",
+    "Administracion",
+    "Artes",
+    "Programacion",
+    "Diseño",
+    "Videojuegos",
+    "Finanzas",
+  ];
 
-  console.log(select);
-
-  const showToast = () => {
+  const showToast = (type, texto1, texto2) => {
     Toast.show({
-      type: "success",
-      text1: "En hora Buena ✅",
-      text2: "Usuario Registrado Correctamente!",
+      type: type,
+      text1: `${texto1}`,
+      text2: texto2,
       position: "top",
     });
   };
 
-  const registerUser = async (userData) => {
+  const handleCheckboxToggle = (value) => {
+    if (selectedValues.includes(value)) {
+      setSelectedValues(selectedValues.filter((item) => item !== value));
+    } else {
+      if (selectedValues.length < 2) {
+        setSelectedValues([...selectedValues, value]);
+      } else {
+        showToast(
+          "error",
+          "Oh no¡ ❌ ",
+          "Solo puedes seleccionar dos intereses"
+        );
+      }
+    }
+  };
+
+  const registerUser = async (checkbox, form) => {
     setLoading(true);
+    const data = { ...form, intereses: checkbox, cursos: [] };
     try {
-      users.push(userData);
+      users.push(data);
       setTimeout(() => {
-        showToast();
+        showToast(
+          "success",
+          "En hora Buena ✅",
+          "Usuario Registrado Correctamente!"
+        );
         setLoading(false);
-      }, 3000);
+      }, 4000);
     } catch (err) {
       setLoading(false);
       console.error("Error registering", err);
@@ -50,105 +72,112 @@ export default function RegisterScreen2() {
   };
 
   return (
-    <ScrollView>
-      <Background>
-        <Stack.Screen
-          options={{
-            headerShown: false,
-            statusBarTranslucent: false,
-          }}
-        />
-        <Header>Crear Cuenta</Header>
-        <Toast />
-        <Formik
-          initialValues={{
-            name: "",
-            password: "",
-            email: "",
-            age: "",
-            phone: "",
-          }}
-          validationSchema={SignupSchema}
-          onSubmit={(values) => registerUser(values)}
-        >
-          {({ handleChange, handleBlur, handleSubmit, values, resetForm }) => (
-            <View style={{ width: "100%" }}>
-              <TextInput
-                name="name"
-                label="Nombre"
-                returnKeyType="next"
-                onChangeText={handleChange("name")}
-                onBlur={handleBlur("name")}
-              />
-              <TextInput
-                name="email"
-                label="Correo"
-                returnKeyType="next"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                autoCapitalize="none"
-                autoCompleteType="email"
-                textContentType="emailAddress"
-                keyboardType="email-address"
-              />
-              <TextInput
-                name="age"
-                label="Edad"
-                returnKeyType="next"
-                onChangeText={handleChange("age")}
-                onBlur={handleBlur("age")}
-              />
-              <TextInput
-                name="phone"
-                label="Telefono"
-                returnKeyType="next"
-                onChangeText={handleChange("phone")}
-                onBlur={handleBlur("phone")}
-              />
-              <TextInput
-                name="password"
-                label="Contraseña"
-                returnKeyType="done"
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                secureTextEntry
-              />
-              <MultiSelectComponent onSelectChange={handleSelect} />
-              <Button
-                onPress={handleSubmit}
-                mode="contained"
-                style={{ marginTop: 24, backgroundColor: "#2196F3" }}
-                disable={loading}
-              >
-                {!loading ? (
-                  "Sign Up"
-                ) : (
-                  <ActivityIndicator animating={true} color={MD2Colors.white} />
-                )}
-              </Button>
-            </View>
-          )}
-        </Formik>
-        <View style={styles.row}>
-          <Text>Already have an account? </Text>
-          <TouchableOpacity
-            onPress={() => router.navigate("/screen/login/LoginScreen")}
+    <Background image={IMG}>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          statusBarTranslucent: true,
+        }}
+      />
+      <Toast />
+      <View style={{ width: "100%", flex: 1 }}>
+        <View style={styles.formContent}>
+          <View style={styles.textContent}>
+            <Text style={styles.oneText}>2</Text>
+            <Text
+              style={{
+                color: "#D7F9FF",
+                fontSize: 17,
+                fontWeight: "bold",
+                marginHorizontal: 25,
+              }}
+            >
+              SELECCIONA TUS INTERESES
+            </Text>
+          </View>
+          <View
+            style={{
+              marginHorizontal: 13,
+              padding: 10,
+              marginVertical: 8,
+            }}
           >
-            <Text style={styles.link}>Login</Text>
-          </TouchableOpacity>
+            <MultiSelectCheckbox
+              data={data}
+              selectedValues={selectedValues}
+              handleCheckboxToggle={handleCheckboxToggle}
+            />
+          </View>
         </View>
-      </Background>
-    </ScrollView>
+        <View
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <Button
+            onPress={() => registerUser(selectedValues, form)}
+            mode="contained"
+            disable={loading}
+          >
+            {!loading ? (
+              "Registrarse"
+            ) : (
+              <ActivityIndicator animating={true} color={MD2Colors.white} />
+            )}
+          </Button>
+        </View>
+      </View>
+
+      <View style={styles.row}>
+        <Text style={{ color: "#4f7cac", fontSize: 12 }}>
+          Ya tienes una cuenta?{" "}
+        </Text>
+        <TouchableOpacity
+          onPress={() => router.navigate("/screen/login/LoginScreen")}
+        >
+          <Text style={styles.link}>Iniciar sesion</Text>
+        </TouchableOpacity>
+      </View>
+    </Background>
   );
 }
 
 const styles = StyleSheet.create({
   row: {
-    flexDirection: "row",
+    marginLeft: "auto",
+    flexDirection: "column",
     marginTop: 4,
+    marginBottom: 20,
   },
   link: {
+    marginLeft: "auto",
     fontWeight: "bold",
+    fontSize: 12,
     color: theme.colors.primary,
+  },
+  formContent: {
+    borderRadius: 20,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: 14,
+    marginTop: 80,
+    marginBottom: 30,
+  },
+  textContent: {
+    alignItems: "center",
+    marginTop: 3,
+    marginBottom: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  oneText: {
+    width: 50,
+    height: 50,
+    backgroundColor: "#D7F9FF",
+    color: "rgba(0, 0, 0, 0.8)",
+    borderRadius: 100,
+    fontSize: 35,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginLeft: 0,
   },
 });

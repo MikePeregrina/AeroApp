@@ -18,10 +18,10 @@ const CustomModal = ({ props }) => {
       setLoading(false);
       setModalVisible(false);
       router.navigate({
-        pathname: "/screen/comprarcurso/MuestraMentor",
+        pathname: "/components/compraCurso/Loading",
         params: props,
       });
-    }, 2000);
+    }, 1000);
   };
 
   return (

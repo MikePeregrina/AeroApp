@@ -6,7 +6,14 @@ export const GlobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
   const [data, setData] = useState({});
   const [userData, setUserData] = useState({
-    datos: {},
+    datos: {
+      nombre: "",
+      apellido: "",
+      correo: "",
+      telefono: "",
+      intereses: [],
+      edad: "",
+    },
     curso: {
       dirigido: "",
       fecha: "",

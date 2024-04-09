@@ -11,10 +11,10 @@ export const SignupSchema = Yup.object().shape({
   password: Yup.string().required("Campo Requerido"),
 
   age: Yup.number()
-    .required("Age is required")
-    .positive("Age must be a positive number")
-    .integer("Age must be an integer")
-    .min(18, "Age must be at least 18 years old"),
+    .required("La edad es requerida")
+    .positive("Inserte un valor positivo")
+    .integer("Fecha incorrecta")
+    .min(18, "La edad debe ser minimo de 18 años"),
 
   phone: Yup.string()
     .required("Phone number is required")

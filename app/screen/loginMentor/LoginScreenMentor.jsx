@@ -18,10 +18,6 @@ export default function LoginScreenMentor() {
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
-  console.log("====================================");
-  console.log("Data sensual del usaurio", users);
-  console.log("====================================");
-
   const showToast = () => {
     Toast.show({
       type: "success",

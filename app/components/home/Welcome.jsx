@@ -1,18 +1,30 @@
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Image, ImageBackground, Text, View } from "react-native";
 import { Button } from "react-native-paper";
-import { SearchBar } from "react-native-elements";
 import RecommendRoutes from "./RecommendRoutes";
 import Buttons from "./Buttons";
 import { ScrollView } from "react-native-gesture-handler";
 import { GlobalContext } from "@/context/GlobalProvider";
 import { useFocusEffect } from "@react-navigation/native";
+import { Keyboard } from "react-native";
 import tw from "twrnc";
+import ShowResults from "./ShowResults";
+import { SearchInput } from "./SearchInput";
+import Background from "../login/Background";
+import IMG from "../../assets/images/elementos-23.png";
 
 const Welcome = () => {
-  const [searchQuery, setSearchQuery] = React.useState("");
-
   const { obtenerDatosUsuario, data } = React.useContext(GlobalContext);
+  const [results, setResults] = React.useState([]);
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const keyboardEventListener = (event) => {};
+    Keyboard.addListener("keyboardDidShow", keyboardEventListener);
+    return () => {
+      Keyboard.removeAllListeners("keyboardDidShow", keyboardEventListener);
+    };
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -49,20 +61,8 @@ const Welcome = () => {
         <Buttons />
         <View style={tw`items-center`}>
           <View style={tw`w-[90%] mt-7 mb-10`}>
-            <SearchBar
-              placeholder="¿Que deseas aprender?"
-              onChangeText={setSearchQuery}
-              value={searchQuery}
-              platform="android"
-              containerStyle={{
-                width: "100%",
-                height: 35,
-                backgroundColor: "#D7F9FF",
-                borderRadius: 50,
-                justifyContent: "center",
-                paddingHorizontal: 10,
-              }}
-            />
+            <SearchInput setResults={setResults} setIsVisible={setIsVisible} />
+            <ShowResults results={results} isVisible={isVisible} />
           </View>
         </View>
         <RecommendRoutes />
@@ -77,8 +77,8 @@ const Welcome = () => {
             Areas de aprendizaje
           </Button>
         </View>
-        <View style={tw`bg-[#2E3532] py-3`}>
-          <View style={"content"}>
+        <View style={tw`py-3`}>
+          <View style={tw`bg-[#2E3532] py-3`}>
             <View style={tw`flex-row mx-[10%]`}>
               <View style={tw`w-45 h-33 m-0 p-0`}>
                 <Image
@@ -99,9 +99,9 @@ const Welcome = () => {
               </Text>
             </View>
           </View>
-          <View style={tw`my-5`}>
+          <View style={tw`bg-[#2E3532] p-3`}>
             <View style={tw`flex-row-reverse mx-[10%]`}>
-              <View style={tw`w-45 h-33 m-0 p-0`}>
+              <View style={tw`w-45 h-33 ml-auto`}>
                 <Image
                   style={tw`w-full h-full`}
                   source={require("../../assets/images/app elementos-11.png")}
@@ -126,46 +126,49 @@ const Welcome = () => {
               </Text>
             </View>
           </View>
-          <View style={tw`my-5`}>
-            <View style={tw`flex-row mx-[10%]`}>
-              <View style={tw`w-45 h-33 m-0 p-0`}>
-                <Image
-                  style={tw`w-full h-full`}
-                  source={require("../../assets/images/app elementos-12.png")}
-                />
+          <ImageBackground resizeMode="stretch" source={IMG}>
+            <View style={tw`h-80`}>
+              <View style={tw`flex-row mx-[10%]`}>
+                <View style={tw`w-45 h-33 m-0 p-0`}>
+                  <Image
+                    style={tw`w-full h-full`}
+                    source={require("../../assets/images/app elementos-12.png")}
+                  />
+                </View>
+                <View style={tw`w-35 my-auto`}>
+                  <Text style={tw`text-[#FFFFFF] mr-auto ml-3 font-bold`}>
+                    Nos
+                  </Text>
+                  <Text style={tw`text-[#FFFFFF] mr-auto ml-3 font-bold`}>
+                    adaptamos
+                  </Text>
+                  <Text style={tw`text-[#FFFFFF] mr-auto ml-3 font-bold`}>
+                    a ti
+                  </Text>
+                </View>
               </View>
-              <View style={tw`w-35 my-auto`}>
-                <Text style={tw`text-[#FFFFFF] mr-auto ml-3 font-bold`}>
-                  Nos
-                </Text>
-                <Text style={tw`text-[#FFFFFF] mr-auto ml-3 font-bold`}>
-                  adaptamos
-                </Text>
-                <Text style={tw`text-[#FFFFFF] mr-auto ml-3 font-bold`}>
-                  a ti
+              <View>
+                <Text style={tw`text-[#FFFFFF] my-auto text-[15px] mx-[15%] `}>
+                  En Wido nos adaptamos a tus objetivos de aprendizaje y al
+                  nivel que tengas en cada curso creando un temario ideal para
+                  ti.
                 </Text>
               </View>
             </View>
-            <View>
-              <Text style={tw`text-[#FFFFFF] my-auto text-[15px] mx-[20%]`}>
-                En Wido nos adaptamos a tus objetivos de aprendizaje y al nivel
-                que tengas en cada curso creando un temario ideal para ti.
-              </Text>
-            </View>
-          </View>
+          </ImageBackground>
         </View>
-        <View style={{ marginVertical: 20 }}>
+        <View>
           <View>
             <View style={tw`w-45 h-45 mx-auto rounded-full`}>
               <Image
                 style={tw`w-full h-full rounded-full`}
-                source={{
-                  uri: "https://s24534.pcdn.co/carreira-sucesso/wp-content/uploads/sites/3/2020/04/CATHO_Blog-Guia-home-office-1200x900.png",
-                }}
+                source={require("../../assets/images/elementos-20.png")}
               />
             </View>
             <View>
-              <Text style={tw`text-xl mx-auto my-3`}>Cursos GRATIS</Text>
+              <Text style={tw`text-xl mx-auto my-3 text-[#4F7CAC] font-bold`}>
+                Cursos GRATIS
+              </Text>
             </View>
             <View>
               <Text style={tw`text-base mx-auto mx-[3.3rem]`}>
@@ -181,14 +184,34 @@ const Welcome = () => {
             <View style={tw`w-45 h-45 mx-auto rounded-full`}>
               <Image
                 style={tw`w-full h-full rounded-full`}
-                source={{
-                  uri: "https://s24534.pcdn.co/carreira-sucesso/wp-content/uploads/sites/3/2020/04/CATHO_Blog-Guia-home-office-1200x900.png",
-                }}
+                source={require("../../assets/images/elementos-21.png")}
               />
             </View>
             <View>
-              <Text style={tw`text-xl mx-auto my-3`}>
+              <Text style={tw`text-xl mx-auto my-3 text-[#4F7CAC] font-bold`}>
                 Conecta con tu Master Teach
+              </Text>
+              <Text style={tw`text-base mx-auto mx-[3.3rem]`}>
+                No pierdas de vista a tus mentores favoritos. Podras estar en
+                contacto con ellos de por vida por medio de nuestro sistema de
+                suscripcion a los canales 100% gratis.
+              </Text>
+            </View>
+          </View>
+          <View style={tw`mt-10`}>
+            <View style={tw`w-45 h-45 mx-auto rounded-full`}>
+              <Image
+                style={tw`w-full h-full rounded-full`}
+                source={require("../../assets/images/elementos-22.png")}
+              />
+            </View>
+            <View>
+              <Text style={tw`text-xl mx-auto my-3 text-[#4F7CAC] font-bold`}>
+                Obten recompensas
+              </Text>
+              <Text style={tw`text-base mx-auto mx-[3.3rem]`}>
+                En Wido premiamos a nuestros estudiantes por medio de un sistema
+                de gramificaion.
               </Text>
             </View>
           </View>

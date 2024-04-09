@@ -5,6 +5,7 @@ import {
   View,
   ToastAndroid,
   Text,
+  KeyboardAvoidingView,
 } from "react-native";
 import Background from "../../components/login/Background";
 import Button from "../../components/login/Button";
@@ -60,97 +61,120 @@ export default function LoginScreen() {
     }
   };
 
+  const theme = {
+    colors: {
+      primary: "#2E3532",
+      underlineColor: "transparent",
+      background: "transparent",
+    },
+  };
+
   return (
-    <Background image={IMAGE}>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          statusBarTranslucent: true,
-        }}
-      />
-      <View style={styles.tittle}>
-        <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-          ¡HOLA DE NUEVO!
-        </Text>
-      </View>
-      <Formik
-        initialValues={{ password: "", email: "" }}
-        validationSchema={SignupSchema}
-        onSubmit={(values) => mockLogin(values)}
-      >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <View style={{ width: "100%" }}>
-            <TextInput
-              name="email"
-              label="Correo"
-              returnKeyType="next"
-              onChangeText={handleChange("email")}
-              onBlur={handleBlur("email")}
-              autoCapitalize="none"
-              autoCompleteType="email"
-              textContentType="emailAddress"
-              keyboardType="email-address"
-            />
-            <TextInput
-              name="password"
-              label="Contraseña"
-              returnKeyType="done"
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              secureTextEntry
-            />
-            <View style={styles.forgotPassword}>
-              <TouchableOpacity
-                onPress={() =>
-                  router.replace("/screen/login/ResetPasswordScreen")
-                }
-              >
-                <Text style={styles.forgot}>Forgot your password?</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Button
-                onPress={handleSubmit}
-                style={{ backgroundColor: "#4F7CAC", color: "#FEC400" }}
-                mode="contained"
-                disable={loading}
-              >
-                {!loading ? (
-                  "Iniciar Sesion"
-                ) : (
-                  <ActivityIndicator animating={true} color={MD2Colors.white} />
-                )}
-              </Button>
-            </View>
-          </View>
-        )}
-      </Formik>
-      <View>
-        <View style={styles.row}>
-          <Text>¿Aun no tienes cuenta? </Text>
-          <TouchableOpacity
-            onPress={() => router.replace("/screen/login/RegisterScreen")}
-          >
-            <Text style={styles.link}>Registrate aquí</Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            position: "absolute",
-            top: 60,
-            justifyContent: "center",
-            alignItems: "center",
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <Background image={IMAGE}>
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            statusBarTranslucent: true,
           }}
-        >
-          <FormButton
-            style={{ backgroundColor: "#2E3532" }}
-            labelStyle={{ color: "#FFFFFF" }}
-          >
-            Soy Master Teach
-          </FormButton>
+        />
+        <View style={styles.tittle}>
+          <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+            ¡HOLA DE NUEVO!
+          </Text>
         </View>
-      </View>
-    </Background>
+        <Formik
+          initialValues={{ password: "", email: "" }}
+          validationSchema={SignupSchema}
+          onSubmit={(values) => mockLogin(values)}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values }) => (
+            <View style={{ width: "100%" }}>
+              <View style={{ marginBottom: 12 }}>
+                <TextInput
+                  name="email"
+                  label="Correo"
+                  returnKeyType="next"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  autoCapitalize="none"
+                  autoCompleteType="email"
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+                  theme={theme}
+                  isPrimary={true}
+                />
+              </View>
+              <View>
+                <TextInput
+                  name="password"
+                  label="Contraseña"
+                  returnKeyType="done"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  secureTextEntry
+                  theme={theme}
+                  isPrimary={true}
+                />
+              </View>
+              <View style={styles.forgotPassword}>
+                <TouchableOpacity
+                  onPress={() =>
+                    router.replace("/screen/login/ResetPasswordScreen")
+                  }
+                >
+                  <Text style={styles.forgot}>Olvidates tu contraseña?</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{ alignItems: "center" }}>
+                <Button
+                  onPress={handleSubmit}
+                  style={{ backgroundColor: "#4F7CAC", color: "#FEC400" }}
+                  mode="contained"
+                  disable={loading}
+                >
+                  {!loading ? (
+                    "Iniciar Sesion"
+                  ) : (
+                    <ActivityIndicator
+                      animating={true}
+                      color={MD2Colors.white}
+                    />
+                  )}
+                </Button>
+              </View>
+            </View>
+          )}
+        </Formik>
+        <View>
+          <View style={styles.row}>
+            <Text>¿Aun no tienes cuenta? </Text>
+            <TouchableOpacity
+              onPress={() => router.replace("/screen/login/RegisterScreen")}
+            >
+              <Text style={styles.link}>Registrate aquí</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <FormButton
+              style={{
+                width: "80%",
+                backgroundColor: "#2E3532",
+                position: "absolute",
+                top: 70,
+                marginHorizontal: 23,
+              }}
+              labelStyle={{ color: "#FFFFFF" }}
+              onPress={() =>
+                router.replace("/screen/loginMentor/LoginScreenMentor")
+              }
+            >
+              Soy Master Teach
+            </FormButton>
+          </View>
+        </View>
+      </Background>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -159,6 +183,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "flex-end",
     marginBottom: 24,
+    marginTop: 3,
   },
   row: {
     flexDirection: "row",
