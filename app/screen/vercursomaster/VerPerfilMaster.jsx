@@ -4,25 +4,30 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useGlobalSearchParams } from "expo-router";
 import { Stack } from "expo-router";
 
-import Carrusel from "@/app/components/carrusel/Carrusel";
 import TextwithNBorder from "@/app/components/perfil/TextwithNBorder";
+
+const baseUrl = "https://widolearn.com/public/images/docente/";
 
 const VerPerfilMaster = () => {
   const mentorDescription = useGlobalSearchParams();
 
-  const {
-    descripcion,
-    fotoPerfil,
-    horariosDisponibles,
-    materias,
-    nombreCompleto,
-    disable,
-  } = mentorDescription;
-  const name = nombreCompleto.toUpperCase();
+  const { Mentor, MentorAcerca, MentorFoto } = mentorDescription;
 
-  console.log("====================================");
-  console.log("Datos", mentorDescription);
-  console.log("====================================");
+  const name =
+    mentorDescription.Mentor_Nombre != null
+      ? mentorDescription.Mentor_Nombre
+      : Mentor;
+  const about =
+    mentorDescription.acercademi != null
+      ? mentorDescription.acercademi
+      : MentorAcerca;
+  const picture =
+    mentorDescription.Mentor_Foto != null
+      ? mentorDescription.Mentor_Foto
+      : MentorFoto;
+
+  console.log("Datos del mentor", mentorDescription);
+  const ArrayCadena = name.split(" ");
 
   return (
     <ScrollView style={tw`bg-[#FFFFFF]`}>
@@ -43,31 +48,29 @@ const VerPerfilMaster = () => {
             <Text
               style={tw`text-[#FEC400] font-bold text-lg ml-auto mr-[16%] mt-23`}
             >
-              PORTAL DE {name}
+              PORTAL DE {ArrayCadena[0]}
             </Text>
             <View style={tw`w-65 h-47 ml-auto mr-12 rounded-xl my-8 z-50`}>
               <Image
                 style={tw`w-full h-full rounded-xl`}
-                source={{ uri: fotoPerfil }}
+                source={{
+                  uri: `${baseUrl}${picture}/${picture}-description.png`,
+                }}
+                resizeMode="cover"
               />
             </View>
             <View style={tw`ml-10`}>
-              <TextwithNBorder
-                name={nombreCompleto}
-                descripcion={descripcion}
-              />
+              <TextwithNBorder name={name} descripcion={about} />
             </View>
           </View>
           <View style={tw`relative top-[-48px] w-full h-full`}>
             <View>
               <Text style={tw`mx-10 font-bold text-[1rem]`}>
-                ¿Qué otros cursos imparte {nombreCompleto}?
+                ¿Qué otros cursos imparte {ArrayCadena[0]}?
               </Text>
             </View>
             <View style={tw`my-5`}>
-              <View style={tw`bg-[#D7F9FF] py-5 `}>
-                <Carrusel />
-              </View>
+              <View style={tw`bg-[#D7F9FF] py-5 `}></View>
             </View>
           </View>
         </View>

@@ -5,17 +5,17 @@ import Background from "../../components/login/Background";
 import Button from "../../components/login/Button";
 import { theme } from "../../components/login/theme";
 import { router, Stack, useGlobalSearchParams } from "expo-router";
-import { users } from "../../components/MockApi";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
-import Toast from "react-native-toast-message";
 import IMG from "../../assets/login/wido app-07.png";
 import MultiSelectCheckbox from "@/app/components/login/MultiSelectCheckbox";
+import { fetchData } from "@/app/services/API";
+import { showToast } from "@/app/utils/toastUtils";
+import Toast from "react-native-toast-message";
 
 export default function RegisterScreen() {
   const form = useGlobalSearchParams();
   const [loading, setLoading] = useState(false);
   const [selectedValues, setSelectedValues] = useState([]);
-  console.log(users);
 
   const data = [
     "Tecnologia",
@@ -27,26 +27,17 @@ export default function RegisterScreen() {
     "Finanzas",
   ];
 
-  const showToast = (type, texto1, texto2) => {
-    Toast.show({
-      type: type,
-      text1: `${texto1}`,
-      text2: texto2,
-      position: "top",
-    });
-  };
-
   const handleCheckboxToggle = (value) => {
     if (selectedValues.includes(value)) {
       setSelectedValues(selectedValues.filter((item) => item !== value));
     } else {
-      if (selectedValues.length < 2) {
+      if (selectedValues.length < 8) {
         setSelectedValues([...selectedValues, value]);
       } else {
         showToast(
           "error",
           "Oh no¡ ❌ ",
-          "Solo puedes seleccionar dos intereses"
+          "Debes selecionar mas de dos intereses"
         );
       }
     }
@@ -54,17 +45,27 @@ export default function RegisterScreen() {
 
   const registerUser = async (checkbox, form) => {
     setLoading(true);
-    const data = { ...form, intereses: checkbox, cursos: [] };
+    const formData = {
+      nombre: form.name,
+      edad: form.age,
+      telefono: form.phone,
+      correo: form.email,
+      contraseña: form.password,
+      intereses: checkbox,
+      cursos: [],
+    };
     try {
-      users.push(data);
-      setTimeout(() => {
-        showToast(
-          "success",
-          "En hora Buena ✅",
-          "Usuario Registrado Correctamente!"
-        );
+      const res = await fetchData(
+        "https://www.widolearn.com/index.php?c=Usuarios&a=registro",
+        { method: "POST", data: JSON.stringify(formData) }
+      );
+      if (res.success) {
+        showToast("success", "En hora Buena ✅", `${res.message}`);
         setLoading(false);
-      }, 4000);
+      } else {
+        showToast("error", "Oh no¡ ❌ ", `${res.error}`);
+        setLoading(false);
+      }
     } catch (err) {
       setLoading(false);
       console.error("Error registering", err);

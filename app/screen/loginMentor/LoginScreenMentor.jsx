@@ -11,7 +11,6 @@ import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import { Stack } from "expo-router";
 import { SignupSchema } from "../../components/login/ValidationSchema";
-import { users } from "../../components/MockApi";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import Toast from "react-native-toast-message";
 export default function LoginScreenMentor() {

@@ -25,11 +25,6 @@ const Buttons = () => {
           Master Teach
         </Button>
       </View>
-      {/* <View style={tw`my-auto mx-auto`}>
-        <Button disabled={false} buttonColor="gray" mode="contained">
-          Reels
-        </Button>
-      </View> */}
     </View>
   );
 };

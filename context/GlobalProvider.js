@@ -4,25 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-  const [data, setData] = useState({});
-  const [userData, setUserData] = useState({
-    datos: {
-      nombre: "",
-      apellido: "",
-      correo: "",
-      telefono: "",
-      intereses: [],
-      edad: "",
-    },
-    curso: {
-      dirigido: "",
-      fecha: "",
-      hora: "",
-      objetivo: "",
-      curso: "",
-      mentor: "",
-    },
-  });
+  const [data, setData] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [cursos, setCursos] = useState([]);
 
   const newUser = () => {
     setUserData((prev) => ({
@@ -65,6 +49,8 @@ export const GlobalProvider = ({ children }) => {
         eliminarDatosUsuario,
         setUserData,
         userData,
+        cursos,
+        setCursos,
       }}
     >
       {children}

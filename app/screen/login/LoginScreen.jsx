@@ -3,7 +3,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   View,
-  ToastAndroid,
   Text,
   KeyboardAvoidingView,
 } from "react-native";
@@ -18,8 +17,10 @@ import * as Yup from "yup";
 import { Stack } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
-import { users } from "../../components/MockApi";
 import IMAGE from "../../assets/login/wido app-06.png";
+import { fetchData } from "@/app/services/API";
+import { showToast } from "@/app/utils/toastUtils";
+import Toast from "react-native-toast-message";
 
 export default function LoginScreen() {
   const [loading, setLoading] = React.useState(false);
@@ -30,30 +31,29 @@ export default function LoginScreen() {
     password: Yup.string().required("Campo Requerido"),
   });
 
-  function showToast(message) {
-    ToastAndroid.show(message, ToastAndroid.SHORT);
-  }
-
   const mockLogin = async (values) => {
     const { email, password } = values;
+    const data = { correo: email, contraseña: password };
     setLoading(true);
     try {
-      const userFound = users.find(
-        (user) => user.email === email && user.password === password
+      const res = await fetchData(
+        "https://www.widolearn.com/index.php?c=Usuarios&a=iniciarSesion",
+        { method: "POST", data: JSON.stringify(data) }
       );
-      if (userFound) {
-        const jsonDatosUsuario = JSON.stringify(userFound);
-        await AsyncStorage.setItem("@dataUsuario", jsonDatosUsuario);
-        showToast("Data saved and loaded");
+      if (res.success) {
+        await AsyncStorage.setItem("@dataUsuario", JSON.stringify(res));
+        showToast(
+          "success",
+          "En hora Buena ✅",
+          `${res.message}, Welcome back!`
+        );
         setTimeout(() => {
           router.navigate("/(tabs)/Home");
           setLoading(false);
         }, 3000);
       } else {
-        setTimeout(() => {
-          showToast("Data not found, please try again!");
-          setLoading(false);
-        }, 3000);
+        showToast("error", "Oh no¡ ❌ ", `${res.message}`);
+        setLoading(false);
       }
     } catch (e) {
       setLoading(false);
@@ -83,6 +83,7 @@ export default function LoginScreen() {
             ¡HOLA DE NUEVO!
           </Text>
         </View>
+        <Toast />
         <Formik
           initialValues={{ password: "", email: "" }}
           validationSchema={SignupSchema}

@@ -1,36 +1,51 @@
+import { fetchData } from "@/app/services/API";
+import { showToast } from "@/app/utils/toastUtils";
 import { GlobalContext } from "@/context/GlobalProvider";
-import { router } from "expo-router";
 import React, { useContext, useState } from "react";
-import { Modal, View, Text, StyleSheet, Image, Linking } from "react-native";
-import { Button } from "react-native-paper";
+import { Modal, View, Text, StyleSheet } from "react-native";
+import { ActivityIndicator, Button, MD2Colors } from "react-native-paper";
+import Toast from "react-native-toast-message";
 
-const ModalConfirmacion = (nombreCompleto) => {
+const ModalConfirmacion = ({ hora, props, dia }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const { userData } = useContext(GlobalContext);
+  const { data } = useContext(GlobalContext);
 
   const handleOpenModal = () => {
     setModalVisible(true);
   };
 
-  const message = `Hola mi nombre es ${userData.datos.name}, estoy interesado en comprar el siguiente curso ${userData.curso.curso} con el mentor ${nombreCompleto.props}, cualquier informacion contactarme por los siguientes medios: telefono: ${userData.datos.phone} o a mi correo : ${userData.datos.email}`;
+  const payload = {
+    mentorID: props.Mentor_ID,
+    hora: hora,
+    dia: dia,
+    mentorName: props.Mentor,
+    cursoName: props.Curso,
+    alumnoName: data.nombre,
+    correoUsuario: data.correo,
+  };
 
-  const sendWhatsAppMessage = async () => {
-    const phoneNumber = "2213470270"; // Reemplaza con el número de teléfono del destinatario
-    const encodedMessage = encodeURIComponent(message);
-
-    // Construye la URL de WhatsApp
-    const url = `whatsapp://send?phone=${phoneNumber}&text=${encodedMessage}`;
-
+  const fetch = async () => {
+    setLoading(true);
     try {
-      await Linking.openURL(url);
-      console.log("WhatsApp abierto exitosamente");
-      setTimeout(() => {
-        router.replace("/(tabs)/Home");
-        console.log("Redirigiendo al usuario a la página principal");
-      }, 3000);
+      const res = await fetchData(
+        `https://www.widolearn.com/index.php?c=Usuarios&a=agendarCita`,
+        { method: "POST", data: JSON.stringify(payload) }
+      );
+      if (res.success) {
+        showToast("success", "En hora Buena ✅", `${res.message}`);
+        setTimeout(() => {
+          setLoading(false);
+          setModalVisible(false);
+        }, 3000);
+      } else {
+        showToast("error", "¡Oh no! ❌ ", `${res.message}`);
+        setLoading(false);
+      }
     } catch (error) {
-      console.error("Error al abrir WhatsApp:", error);
+      setLoading(false);
+      console.error("Error:", error);
     }
   };
 
@@ -38,10 +53,10 @@ const ModalConfirmacion = (nombreCompleto) => {
     <>
       <Button
         onPress={handleOpenModal}
-        labelStyle={{ color: "#ffffff" }}
+        labelStyle={{ color: "#0079ff" }}
         style={styles.button1}
       >
-        Agendar
+        {hora}
       </Button>
       <Modal
         animationType="slide"
@@ -52,41 +67,30 @@ const ModalConfirmacion = (nombreCompleto) => {
         }}
       >
         <View style={styles.modalContainer}>
+          <Toast />
           <View style={styles.modalContent}>
-            <View style={{ width: 100, height: 100, marginBottom: 10 }}>
-              <Image
-                style={{ width: "100%", height: "100%" }}
-                source={require("../../assets/images/arrow.png")}
-              />
-            </View>
-            <View style={{ marginVertical: 10, alignItems: "center" }}>
-              <Text style={styles.modalTitle}>Confirmacion de Curso</Text>
-              <Text style={styles.cursotitle}>
-                Haz comprado el siguiente curso:
-              </Text>
-              <Text style={styles.curso}>{userData.curso.curso}</Text>
-              <Text style={styles.dateText}>Tu curso inicia el dia: </Text>
-              <Text style={styles.time}>
-                {userData.curso.fecha} a las {userData.curso.hora}
-              </Text>
-              <Text style={styles.mentorTitle}>
-                Se le notificaran al mentor agendado
-              </Text>
-              <Text style={{ fontSize: 18, fontWeight: 400 }}>
-                {nombreCompleto.props}
+            <View style={{ alignItems: "center" }}>
+              <Text style={styles.tittle}>Master Teach: {props.Mentor}</Text>
+              <Text style={styles.subtitles}>Deseas agendar el curso</Text>
+              <Text style={styles.span}>{props.Curso}</Text>
+              <Text style={styles.subtitles}>
+                Para el dia {dia}, a las {hora}
               </Text>
             </View>
-            <View style={styles.buttonsContainer}>
-              <Button
-                labelStyle={{ color: "#ffffff" }}
-                contentStyle={{ backgroundColor: "#34b233" }}
-                onPress={sendWhatsAppMessage}
-              >
-                Confrimar
-              </Button>
+            <View style={{ marginVertical: 10 }}>
               <Button
                 labelStyle={{ color: "#FFFFFF" }}
-                contentStyle={{ backgroundColor: "#ff0000" }}
+                style={styles.buttonConfirmation}
+                onPress={fetch}
+              >
+                {!loading ? (
+                  "Agendar Cita"
+                ) : (
+                  <ActivityIndicator animating={true} color={MD2Colors.white} />
+                )}
+              </Button>
+              <Button
+                labelStyle={{ color: "#BA0000" }}
                 onPress={() => setModalVisible(false)}
               >
                 Cancelar
@@ -107,54 +111,40 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    marginHorizontal: 20,
     backgroundColor: "white",
+    width: "84%",
     borderRadius: 10,
     padding: 30,
-    alignItems: "center",
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  cursotitle: {
-    fontSize: 17,
-    fontWeight: "500",
-  },
-  curso: {
-    marginVertical: 5,
-    fontSize: 17,
-    fontWeight: "400",
-  },
-  mentorTitle: {
-    fontSize: 17,
-    fontWeight: "600",
-    marginVertical: 5,
-  },
-  dateText: {
-    marginVertical: 2,
-    fontSize: 17,
-    fontWeight: "600",
-  },
-  time: {
-    marginVertical: 2,
-    fontSize: 17,
-    fontWeight: "400",
   },
   button1: {
     width: "90%",
     marginTop: 14,
     borderRadius: 10,
-    backgroundColor: "#fa8128",
+    backgroundColor: "#e3f3ff",
   },
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
+  tittle: {
+    color: "#4F7CAC",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  subtitles: {
+    fontSize: 17,
     marginVertical: 5,
-    padding: 10,
+  },
+  span: {
+    fontSize: 17,
+    fontWeight: "bold",
+  },
+  buttonConfirmation: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: "100%",
+    borderRadius: 10,
+    backgroundColor: "#3BB143",
+    fontSize: 17,
+    fontWeight: "bold",
   },
 });
 

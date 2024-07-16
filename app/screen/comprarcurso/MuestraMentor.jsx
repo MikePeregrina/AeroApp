@@ -1,87 +1,78 @@
 //** Aqui es donde se mostrara si encuentra o no mentor  */
 
 import { useGlobalSearchParams } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-
 import { Stack } from "expo-router";
 import CardMentor from "@/app/components/compraCurso/CardMentor";
-import Mentores from "@/app/components/Mentores";
-import {
-  formatDate,
-  formatTime,
-} from "@/app/components/calendario/FormatoDefechas";
-import { GlobalContext } from "@/context/GlobalProvider";
+import { fetchData } from "@/app/services/API";
+import { groupMentorSchedules } from "../../utils/groupMentorSchedules";
+import SkeletonCard from "@/app/components/carrusel/SkeletonCard";
 
 const MuestraMentor = () => {
-  /* Curso descripcion almacena los valores de curso, fechas y objetivos */
+  const [mentor, setMentor] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const cursoDescription = useGlobalSearchParams();
+  const { id_curso } = cursoDescription;
 
-  const [mentorsWithTime, setMentorsWithTime] = useState([]);
-  const [mentorsWithoutTime, setMentorsWithoutTime] = useState([]);
+  useEffect(() => {
+    const fetchMentor = async () => {
+      try {
+        const res = await fetchData(
+          `https://www.widolearn.com/index.php?c=Docentes&a=verMentoresporIdCursos&cursoId=${id_curso}`
+        );
+        if (res.error) {
+          setError("Error in response:", res.error);
+        } else {
+          const groupMentor = groupMentorSchedules(res);
+          setMentor(groupMentor);
+        }
+      } catch (error) {
+        setError("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const { setUserData } = useContext(GlobalContext);
+    fetchMentor();
+  }, []);
 
-  const horaDate = new Date(cursoDescription.hora);
-  const time = formatTime(horaDate);
-
-  const fechaDate = new Date(cursoDescription.fecha);
-  const date = formatDate(fechaDate);
-
-  const searchMentors = (subject, availableTime) => {
-    const mentorsWithBoth = Mentores.filter(
-      (mentor) =>
-        mentor.materias.includes(subject) &&
-        mentor.horariosDisponibles.includes(availableTime)
+  if (loading)
+    return (
+      <View>
+        <Stack.Screen options={{ title: "" }} />
+        <View style={{ marginTop: 50 }}>
+          <SkeletonCard Loading={loading} />
+        </View>
+      </View>
     );
 
-    if (mentorsWithBoth.length > 0) {
-      setMentorsWithTime(mentorsWithBoth);
-    } else {
-      const mentorsWithSubjectOnly = Mentores.filter((mentor) =>
-        mentor.materias.includes(subject)
-      );
-      setMentorsWithoutTime(mentorsWithSubjectOnly);
-    }
-  };
-
-  const almacenarDatos = (fecha, hora, curse) => {
-    setUserData((prev) => ({
-      ...prev,
-      curso: {
-        fecha: fecha,
-        hora: hora,
-        objetivo: curse.objetivo,
-        curso: curse.curso,
-        mentor: curse.mentor,
-      },
-    }));
-  };
-
-  useEffect(() => {
-    searchMentors(cursoDescription.curso, time);
-  }, []);
-
-  useEffect(() => {
-    almacenarDatos(date, time, cursoDescription);
-  }, []);
+  if (error)
+    return (
+      <View>
+        <Text>Error: {error}</Text>
+      </View>
+    );
 
   return (
     <ScrollView>
       <View>
         <Stack.Screen options={{ title: "" }} />
-        {mentorsWithTime.length ? (
+        {mentor.length ? (
           <View>
             <View style={styles.container}>
               <Text style={styles.title}>¡EnHorabuena!</Text>
               <Text style={{ fontSize: 20 }}>
-                ¡Encontramos a los siguientes mentores! De acuerdo a tus
-                horarios!
+                Mentores disponibles para el curso :
+              </Text>
+              <Text style={{ fontSize: 21, fontWeight: 700 }}>
+                {cursoDescription.curso}
               </Text>
             </View>
             <View style={styles.mentorContainer}>
-              {mentorsWithTime.map((item, index) => (
+              {mentor.map((item, index) => (
                 <CardMentor key={index} props={item} disable={false} />
               ))}
             </View>
@@ -90,21 +81,14 @@ const MuestraMentor = () => {
           <View>
             <View style={styles.container}>
               <Text style={styles.title}>¡Oh no!</Text>
-              <Text style={{ fontSize: 20 }}>
-                No pudimos encontrar mentores en los horarios elegidos.
-              </Text>
-              <Text style={{ fontSize: 20 }}>
-                Sin embargo puedes analizar estos horarios propuestos por
-                nuestros mentores disponibles de acuerdo al tema :
+              <Text style={{ fontSize: 20 }}>No hay mentores disponibles.</Text>
+              <Text style={{ fontSize: 20, marginVertical: 10 }}>
+                Porfavor comunicate con nosotros para poder accesorate y
+                brindarte una opcion adecuada a tus necesidades.
               </Text>
               <Text style={{ fontSize: 20, fontWeight: "700" }}>
-                {cursoDescription.curso}
+                Curso Seleccionado {cursoDescription.curso}
               </Text>
-            </View>
-            <View style={styles.mentorContainer}>
-              {mentorsWithoutTime.map((item, index) => (
-                <CardMentor key={index} props={item} disable={true} />
-              ))}
             </View>
           </View>
         )}
@@ -125,8 +109,6 @@ const styles = StyleSheet.create({
   },
   mentorContainer: {
     flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
   },
 });
 

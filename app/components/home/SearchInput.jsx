@@ -1,16 +1,17 @@
+import { GlobalContext } from "@/context/GlobalProvider";
 import React from "react";
 import { SearchBar } from "react-native-elements";
-import datos from "../datos";
 
 export const SearchInput = ({ setResults, setIsVisible }) => {
+  const { cursos } = React.useContext(GlobalContext);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [isFocused, setIsFocused] = React.useState(false);
 
   const search = (value) => {
     setIsVisible(true);
     const lowerCaseValue = value.toLowerCase();
-    const results = datos.filter((item) => {
-      const lowerCaseTitle = item.title.toLowerCase();
+    const results = cursos.filter((item) => {
+      const lowerCaseTitle = item.nombre.toLowerCase();
       return lowerCaseTitle.includes(lowerCaseValue);
     });
     if (results.length > 0) {
@@ -46,7 +47,6 @@ export const SearchInput = ({ setResults, setIsVisible }) => {
       containerStyle={{
         width: "100%",
         height: 35,
-        // backgroundColor: "#D7F9FF",
         backgroundColor: isFocused ? "#D7F9FF" : "#FFFFFF",
         borderRadius: 50,
         justifyContent: "center",

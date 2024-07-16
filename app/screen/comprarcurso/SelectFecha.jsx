@@ -12,7 +12,7 @@ const SelectFecha = () => {
       <Text style={styles.title}>
         Elige el horario y el dia que deseas tomar tu clase muestra.
       </Text>
-      <Calendario props={curso} />
+      <Calend ario props={curso} />
     </View>
   );
 };

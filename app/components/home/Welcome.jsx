@@ -10,7 +10,6 @@ import { Keyboard } from "react-native";
 import tw from "twrnc";
 import ShowResults from "./ShowResults";
 import { SearchInput } from "./SearchInput";
-import Background from "../login/Background";
 import IMG from "../../assets/images/elementos-23.png";
 
 const Welcome = () => {
@@ -45,7 +44,7 @@ const Welcome = () => {
               style={tw`bg-[#fec400] w-[44%] mr-auto ml-16`}
               labelStyle={{ color: "#2e3532", fontWeight: "700" }}
             >
-              Clase muestra gratuita
+              Iniciar Sesion
             </Button>
           </View>
         </View>

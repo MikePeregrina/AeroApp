@@ -1,6 +1,13 @@
 import { router } from "expo-router";
 import React from "react";
-import { Image, Modal, StyleSheet, Text, View } from "react-native";
+import {
+  Text,
+  Image,
+  Modal,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { Button } from "react-native-paper";
 
 export const ModalLogin = () => {
@@ -22,7 +29,7 @@ export const ModalLogin = () => {
         labelStyle={styles.buttonText}
         onPress={handleOpenModal}
       >
-        Clase Muestra
+        Siguiente
       </Button>
       <Modal
         animationType="slide"
@@ -34,28 +41,45 @@ export const ModalLogin = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.title}>
-              Inicia sesion para llevarte este curso
-            </Text>
+            <View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#000000",
+                  borderRadius: 20,
+                  marginLeft: "auto",
+                  marginTop: 15,
+                  marginRight: 20,
+                }}
+                onPress={() => setModalVisible(false)}
+              ></TouchableOpacity>
+            </View>
+            <View style={{ marginHorizontal: 30 }}>
+              <Text style={styles.title}>¡Hey!</Text>
+              <Text style={{ marginVertical: 5 }}>
+                Primero debes iniciar sesion
+              </Text>
+            </View>
+            <View style={styles.imgContent}>
+              <Image
+                style={{ width: "100%", height: "100%" }}
+                source={require("../../assets/login/loginFirst.png")}
+              />
+            </View>
             <View
               style={{
-                flexDirection: "row-reverse",
-                marginLeft: "auto",
+                margin: "auto",
               }}
             >
               <Button
-                style={{ width: "auto", borderRadius: 10 }}
+                style={{
+                  width: 150,
+                  borderRadius: 20,
+                  backgroundColor: "#FAC400",
+                }}
                 labelStyle={{ color: "#000000" }}
                 onPress={handleNavigation}
               >
                 Iniciar Sesion
-              </Button>
-              <Button
-                style={{ width: "auto", borderRadius: 10, marginLeft: "auto" }}
-                labelStyle={{ color: "#000000" }}
-                onPress={() => setModalVisible(false)}
-              >
-                Cerrar
               </Button>
             </View>
           </View>
@@ -73,27 +97,29 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    marginHorizontal: 20,
-    width: "85%",
+    width: "75%",
+    height: "51%",
     backgroundColor: "white",
-    borderRadius: 5,
-    padding: 10,
-    alignItems: "center",
+    borderRadius: 20,
     elevation: 5,
   },
   title: {
-    marginLeft: 5,
-    marginRight: "auto",
-    paddingVertical: 20,
+    fontSize: 28,
+    color: "#4F7CAC",
+    fontWeight: "bold",
   },
   buttons: {
-    width: "80%",
-    marginVertical: 10,
+    width: "100%",
+    marginVertical: 20,
     borderColor: "#009dff",
-    backgroundColor: "#ff8c00",
+    backgroundColor: "#2257ff",
   },
   buttonText: {
     fontSize: 15,
     color: "#FDFBF6",
+  },
+  imgContent: {
+    width: "100%",
+    height: "55%",
   },
 });

@@ -1,11 +1,20 @@
 import { router } from "expo-router";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
-import ModalConfirmacion from "./ModalConfirmacion";
+import CarouselSelector from "./CarouselSelector";
+
+const baseUrl = "https://widolearn.com/";
 
 const CardMentor = ({ props, disable }) => {
-  const { fotoPerfil, nombreCompleto } = props;
+  const { MentorFoto, Mentor } = props;
   const data = { ...props, disable: disable };
+
+  const mentorFoto =
+    MentorFoto != ""
+      ? `public/images/docente/${MentorFoto}/${MentorFoto}-profile.png`
+      : "public/images/docente/blank-profile.png";
+
+  const ArrayCadena = Mentor.split(" ");
 
   return (
     <View>
@@ -14,17 +23,18 @@ const CardMentor = ({ props, disable }) => {
           <View style={styles.imgContent}>
             <Image
               style={{
-                width: 120,
-                height: 120,
+                width: 150,
+                height: 150,
                 borderRadius: 100,
               }}
-              source={{ uri: fotoPerfil }}
+              source={{
+                uri: `${baseUrl}${mentorFoto}`,
+              }}
             />
           </View>
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.name}>{nombreCompleto}</Text>
-          <ModalConfirmacion props={nombreCompleto} />
+          <Text style={styles.name}>{ArrayCadena[0]}</Text>
           <Button
             onPress={() => {
               router.navigate({
@@ -37,6 +47,7 @@ const CardMentor = ({ props, disable }) => {
           >
             Ver Perfil
           </Button>
+          <CarouselSelector horarios={props} />
         </View>
       </View>
     </View>
@@ -45,13 +56,14 @@ const CardMentor = ({ props, disable }) => {
 
 const styles = StyleSheet.create({
   cardContent: {
-    width: "95%",
-    height: 300,
+    width: "85%",
+    height: "auto",
     backgroundColor: "#ffffff",
     borderRadius: 10,
     elevation: 5,
-    marginHorizontal: "8%",
+    marginHorizontal: "auto",
     marginVertical: 8,
+    padding: 15,
   },
   imgContent: {
     marginTop: 23,
@@ -60,15 +72,17 @@ const styles = StyleSheet.create({
   },
 
   name: {
+    marginTop: 10,
     textAlign: "center",
     fontWeight: "500",
+    flexWrap: "wrap",
   },
 
   button2: {
     width: "90%",
     marginTop: 14,
     borderRadius: 10,
-    backgroundColor: "#63c5da",
+    backgroundColor: "#FAC404",
   },
 });
 

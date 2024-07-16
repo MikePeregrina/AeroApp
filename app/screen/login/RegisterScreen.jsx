@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../../components/login/Background";

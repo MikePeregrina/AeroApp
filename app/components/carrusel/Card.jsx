@@ -1,34 +1,34 @@
-import { GlobalContext } from "@/context/GlobalProvider";
 import { useRouter } from "expo-router";
 import * as React from "react";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "react-native-paper";
-import { ModalLogin } from "../home/ModalLogin";
+
+const baseUrl = "https://widolearn.com/public/";
 
 const Cards = ({ curso }) => {
-  const { data } = React.useContext(GlobalContext);
   const router = useRouter();
 
   return (
     <Card style={styles.container}>
-      <Card.Cover style={styles.cardContent} source={{ uri: curso.imgUrl }} />
+      <Card.Cover
+        style={styles.cardContent}
+        source={{ uri: `${baseUrl}${curso.foto}` }}
+        resizeMode="stretch"
+      />
       <Card.Actions style={styles.cardButtons}>
-        {data ? (
-          <Button
-            onPress={() =>
-              router.navigate({
-                pathname: "/screen/comprarcurso/HomeCursoSreen",
-                params: curso,
-              })
-            }
-            style={styles.buttons}
-            labelStyle={styles.buttonText}
-          >
-            Clase Muestra
-          </Button>
-        ) : (
-          <ModalLogin />
-        )}
+        <Button
+          onPress={() =>
+            router.navigate({
+              pathname: "/screen/comprarcurso/HomeCursoSreen",
+              params: curso,
+            })
+          }
+          style={styles.buttons}
+          labelStyle={styles.buttonText}
+        >
+          Clase Muestra
+        </Button>
+
         <Button style={styles.disableButton} disabled>
           Suscripcion(proximamente)
         </Button>

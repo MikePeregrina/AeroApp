@@ -1,6 +1,4 @@
-import datos from "../../components/datos";
 import { router, Stack } from "expo-router";
-import Toast from "react-native-toast-message";
 import {
   Image,
   ScrollView,
@@ -9,39 +7,26 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { GlobalContext } from "@/context/GlobalProvider";
 
-const VerCursos = () => {
-  const { data } = useContext(GlobalContext);
+const baseUrl = "https://widolearn.com/public/";
 
-  const showToast = () => {
-    Toast.show({
-      type: "info",
-      text1: "Lo sentimos ❌",
-      text2: "Debes iniciar sesion primero!",
-      position: "top",
-      visibilityTime: 2000,
-    });
-  };
+const VerCursos = () => {
+  const { cursos } = useContext(GlobalContext);
 
   const handleLogin = (datos) => {
-    if (data) {
-      router.navigate({
-        pathname: "/screen/comprarcurso/HomeCursoSreen",
-        params: datos,
-      });
-    } else {
-      console.log("no hay data");
-      showToast();
-    }
+    router.navigate({
+      pathname: "/screen/comprarcurso/HomeCursoSreen",
+      params: datos,
+    });
   };
 
   return (
     <ScrollView>
       <Stack.Screen options={{ title: "" }} />
       <View>
-        {datos.map((data, index) => (
+        {cursos.map((data, index) => (
           <TouchableWithoutFeedback
             key={index}
             onPress={() => handleLogin(data)}
@@ -49,17 +34,19 @@ const VerCursos = () => {
           >
             <View style={styles.card}>
               <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: data.imgUrl }} />
+                <Image
+                  style={styles.image}
+                  source={{ uri: `${baseUrl}${data.foto}` }}
+                  resizeMode="center"
+                />
               </View>
               <View style={styles.contentContainer}>
-                <Text style={styles.description}>{data.description}</Text>
-                <Text style={styles.price}>MX${data.prize}</Text>
+                <Text style={styles.description}>{data.nombre}</Text>
               </View>
             </View>
           </TouchableWithoutFeedback>
         ))}
       </View>
-      <Toast />
     </ScrollView>
   );
 };
@@ -95,6 +82,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   description: {
+    marginHorizontal: "auto",
+    marginVertical: "auto",
     fontWeight: "700",
   },
   price: {

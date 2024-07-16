@@ -1,21 +1,67 @@
-import Mentores from "../../components/Mentores";
 import { router } from "expo-router";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { Stack } from "expo-router";
+import { useEffect, useState } from "react";
+import { fetchData } from "@/app/services/API";
+import SkeletonCard from "@/app/components/carrusel/SkeletonCard";
+
+const baseUrl = "https://widolearn.com/";
 
 const VerCursos = () => {
+  const [mentores, setMentores] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const result = await fetchData(
+          "https://www.widolearn.com/index.php?c=Usuarios&a=verMentores"
+        );
+        setMentores(result);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  if (loading)
+    return (
+      <View>
+        <Stack.Screen options={{ title: "" }} />
+        <View style={{ marginTop: 50 }}>
+          <SkeletonCard Loading={loading} />
+        </View>
+      </View>
+    );
+  if (error)
+    return (
+      <View>
+        <Text>Error: {error}</Text>
+      </View>
+    );
+
   return (
     <ScrollView>
       <Stack.Screen options={{ title: "" }} />
       <View>
-        {Mentores.map((data, index) => (
+        {mentores.map((data, index) => (
           <View key={index} style={styles.card}>
             <View style={styles.imageContainer}>
-              <Image style={styles.image} source={{ uri: data.fotoPerfil }} />
+              <Image
+                style={styles.image}
+                source={{
+                  uri: `${baseUrl}public/images/docente/${data.Mentor_Foto}/${data.Mentor_Foto}-profile.png`,
+                }}
+              />
             </View>
             <View style={styles.contentContainer}>
-              <Text style={styles.name}>{data.nombreCompleto}</Text>
+              <Text style={styles.name}>{data.Mentor_Nombre}</Text>
               <Button
                 style={styles.button}
                 labelStyle={{ color: "#FFFFFF" }}
