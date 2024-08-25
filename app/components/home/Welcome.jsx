@@ -1,6 +1,5 @@
 import React from "react";
 import { Image, ImageBackground, Text, View } from "react-native";
-import { Button } from "react-native-paper";
 import RecommendRoutes from "./RecommendRoutes";
 import Buttons from "./Buttons";
 import { ScrollView } from "react-native-gesture-handler";
@@ -37,16 +36,9 @@ const Welcome = () => {
         <View style={tw`w-full h-80`}>
           <Image
             style={tw`w-full h-full`}
-            source={require("../../assets/images/homeElement.png")}
+            source={require("../../assets/images/homeElement2.png")}
+            resizeMode="center"
           />
-          <View style={tw`relative bottom-19`}>
-            <Button
-              style={tw`bg-[#fec400] w-[44%] mr-auto ml-16`}
-              labelStyle={{ color: "#2e3532", fontWeight: "700" }}
-            >
-              Iniciar Sesion
-            </Button>
-          </View>
         </View>
         <View style={tw`mb-3`}>
           <Text style={tw`mx-[15%] text-xl font-bold`}>
@@ -65,17 +57,6 @@ const Welcome = () => {
           </View>
         </View>
         <RecommendRoutes />
-        <View style={tw`my-10`}>
-          <Button
-            buttonColor="#4f7cac"
-            style={tw`w-[70%] mx-auto`}
-            labelStyle={{ color: "#fec400" }}
-            mode="contained"
-            onPress={() => router.navigate("/screen/vercursomaster/VerCursos")}
-          >
-            Areas de aprendizaje
-          </Button>
-        </View>
         <View style={tw`py-3`}>
           <View style={tw`bg-[#2E3532] py-3`}>
             <View style={tw`flex-row mx-[10%]`}>

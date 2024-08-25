@@ -10,8 +10,11 @@ const Carrusel = () => {
   const { cursos, setCursos } = React.useContext(GlobalContext);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const { userData } = React.useContext(GlobalContext);
 
-  const newData = cursos && cursos.length ? cursos.slice(0, 6) : [];
+  const newData = React.useMemo(() => {
+    return cursos && cursos.length ? cursos.slice(0, 6) : [];
+  }, [cursos]);
 
   React.useEffect(() => {
     const loadData = async () => {
@@ -28,9 +31,14 @@ const Carrusel = () => {
     };
 
     loadData();
-  }, []);
+  }, [userData, setCursos]);
 
-  if (loading) return <Placeholder Loading={loading} />;
+  if (loading)
+    return (
+      <View style={{ marginVertical: 10 }}>
+        <Placeholder Loading={loading} />
+      </View>
+    );
   if (error)
     return (
       <View>

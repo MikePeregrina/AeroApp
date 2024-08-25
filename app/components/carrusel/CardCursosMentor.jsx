@@ -4,16 +4,14 @@ import { useRouter } from "expo-router";
 import * as React from "react";
 import { StyleSheet } from "react-native";
 import { Button, Card } from "react-native-paper";
-import PaymentModal from "../compraCurso/PaymentModal";
 
 const baseUrl = "https://widolearn.com/public/";
 
-const Cards = ({ curso }) => {
+const CardCursosMentor = ({ curso }) => {
   const router = useRouter();
   const [estado, setEstado] = React.useState({});
   const { userData, cursos } = React.useContext(GlobalContext);
   const [name, setName] = React.useState("");
-  const [modalVisible, setModalVisible] = React.useState(false);
 
   React.useEffect(() => {
     const loadClase = async () => {
@@ -34,6 +32,16 @@ const Cards = ({ curso }) => {
     loadClase();
   }, [userData, curso.id_curso]);
 
+  /*const handleOnPress = () => {
+    if (estado.estado === "muestra") {
+      console.log("Navegar a la clase muestra");
+    } else if (estado.estado === "comprar") {
+      console.log("Navegar a la compra del curso");
+    } else if (estado.estado === "mi curso") {
+      console.log("Navegar al curso del usuario");
+    }
+  };*/
+
   React.useEffect(() => {
     const getButtonLabel = () => {
       if (estado.estado === "empezo") {
@@ -48,44 +56,33 @@ const Cards = ({ curso }) => {
     getButtonLabel();
   }, [estado]);
 
-  const handleButtonPress = () => {
-    if (name === "Comprar" || name === "Comprar Curso") {
-      setModalVisible(true);
-      console.log("Le diste click");
-    } else {
-      router.navigate({
-        pathname: "/screen/comprarcurso/HomeCursoSreen",
-        params: curso,
-      });
-    }
-  };
-
   return (
-    <>
-      <Card style={styles.container}>
-        <Card.Cover
-          style={styles.cardContent}
-          source={{ uri: `${baseUrl}${curso.foto}` }}
-          resizeMode="stretch"
-        />
-        <Card.Actions style={styles.cardButtons}>
-          <Button
-            onPress={handleButtonPress}
-            style={styles.buttons}
-            labelStyle={styles.buttonText}
-          >
-            {name}
-          </Button>
-          <Button style={styles.disableButton}>Temario</Button>
-        </Card.Actions>
-      </Card>
-      <PaymentModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        mentorData={curso}
-        curso={curso}
+    <Card style={styles.container}>
+      <Card.Cover
+        style={styles.cardContent}
+        source={{ uri: `${baseUrl}${curso.CursoFoto}` }}
+        resizeMode="stretch"
       />
-    </>
+      <Card.Actions style={styles.cardButtons}>
+        <Button
+          onPress={() =>
+            router.replace({
+              pathname: "/screen/comprarcurso/HomeCursoSreen",
+              params: {
+                nombre: curso.Curso,
+                foto: curso.CursoFoto,
+                id_curso: curso.id_curso,
+              },
+            })
+          }
+          style={styles.buttons}
+          labelStyle={styles.buttonText}
+        >
+          {name}
+        </Button>
+        <Button style={styles.disableButton}>Temario</Button>
+      </Card.Actions>
+    </Card>
   );
 };
 
@@ -126,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Cards;
+export default CardCursosMentor;

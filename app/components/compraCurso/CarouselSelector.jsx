@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
 import ModalConfirmacion from "./ModalConfirmacion";
 import { groupDaysAndTimes } from "../../utils/shared";
 
-const carouselItems = [
+const allCarouselItems = [
   { id: "1", value: "Lunes" },
   { id: "2", value: "Martes" },
   { id: "3", value: "Miércoles" },
@@ -19,9 +19,48 @@ const carouselItems = [
   { id: "7", value: "Domingo" },
 ];
 
+const getStartingDayIndex = () => {
+  const today = new Date();
+  const startingDate = new Date(today);
+  startingDate.setDate(today.getDate() + 2);
+  return startingDate.getDay();
+};
+
+const getAdjustedCarouselItems = (startIndex) => {
+  return [
+    ...allCarouselItems.slice(startIndex - 1),
+    ...allCarouselItems.slice(0, startIndex - 1),
+  ];
+};
+
+const getDateForDay = (dayIndex, offset) => {
+  const today = new Date();
+  const targetDate = new Date(today);
+  targetDate.setDate(today.getDate() + offset);
+  return targetDate.toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "long",
+  });
+};
+
 const CarouselSelector = ({ horarios }) => {
-  const [selectedValue, setSelectedValue] = useState(carouselItems[0].value);
   const flatListRef = useRef(null);
+  const [selectedValue, setSelectedValue] = useState("");
+  const [carouselItems, setCarouselItems] = useState([]);
+  const [selectedDate, setSelectedDate] = useState("");
+
+  useEffect(() => {
+    const startIndex = getStartingDayIndex();
+    const adjustedCarouselItems = getAdjustedCarouselItems(startIndex).map(
+      (item, index) => ({
+        ...item,
+        date: getDateForDay(startIndex, index),
+      })
+    );
+    setCarouselItems(adjustedCarouselItems);
+    setSelectedValue(adjustedCarouselItems[0].value);
+    setSelectedDate(adjustedCarouselItems[0].date);
+  }, []);
 
   const fechasAgrupadas = groupDaysAndTimes(horarios.dias_horas);
 
@@ -86,7 +125,7 @@ const CarouselSelector = ({ horarios }) => {
                   item.value === selectedValue && styles.selectedItemText,
                 ]}
               >
-                {item.value}
+                {item.value} - {item.date}
               </Text>
             </TouchableOpacity>
           )}

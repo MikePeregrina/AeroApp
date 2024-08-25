@@ -9,43 +9,53 @@ import {
 } from "react-native";
 import React, { useContext } from "react";
 import { GlobalContext } from "@/context/GlobalProvider";
-
-const baseUrl = "https://widolearn.com/public/";
+import GridPosition from "@/app/components/home/GridPosition";
 
 const VerCursos = () => {
   const { cursos } = useContext(GlobalContext);
 
-  const handleLogin = (datos) => {
-    router.navigate({
-      pathname: "/screen/comprarcurso/HomeCursoSreen",
-      params: datos,
-    });
-  };
+  const programacion = cursos.filter(
+    (cursor) => cursor.tipo === "programacion"
+  );
+
+  const administracion = cursos.filter(
+    (cursor) => cursor.tipo === "administracion"
+  );
+
+  const videojuegos = cursos.filter((cursor) => cursor.tipo === "videojuegos");
+
+  const dibujo = cursos.filter(
+    (cursor) => cursor.tipo === "dibujo-ilustracion"
+  );
 
   return (
     <ScrollView>
-      <Stack.Screen options={{ title: "" }} />
+      <Stack.Screen options={{ title: "Cursos" }} />
       <View>
-        {cursos.map((data, index) => (
-          <TouchableWithoutFeedback
-            key={index}
-            onPress={() => handleLogin(data)}
-            activeOpacity={0.9}
-          >
-            <View style={styles.card}>
-              <View style={styles.imageContainer}>
-                <Image
-                  style={styles.image}
-                  source={{ uri: `${baseUrl}${data.foto}` }}
-                  resizeMode="center"
-                />
-              </View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.description}>{data.nombre}</Text>
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        ))}
+        <View>
+          <Text style={{ fontSize: 18, fontWeight: "700", padding: 10 }}>
+            Cursos de Programacion
+          </Text>
+          <GridPosition data={programacion} />
+        </View>
+        <View>
+          <Text style={{ fontSize: 18, fontWeight: "700", padding: 10 }}>
+            Cursos de Administracion
+          </Text>
+          <GridPosition data={administracion} />
+        </View>
+        <View>
+          <Text style={{ fontSize: 18, fontWeight: "700", padding: 10 }}>
+            Cursos de Videojuegos
+          </Text>
+          <GridPosition data={videojuegos} />
+        </View>
+        <View>
+          <Text style={{ fontSize: 18, fontWeight: "700", padding: 10 }}>
+            Cursos de Dibujo
+          </Text>
+          <GridPosition data={dibujo} />
+        </View>
       </View>
     </ScrollView>
   );

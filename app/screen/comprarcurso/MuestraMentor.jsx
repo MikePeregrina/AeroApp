@@ -1,13 +1,17 @@
 //** Aqui es donde se mostrara si encuentra o no mentor  */
 
 import { useGlobalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Stack } from "expo-router";
 import CardMentor from "@/app/components/compraCurso/CardMentor";
 import { fetchData } from "@/app/services/API";
 import { groupMentorSchedules } from "../../utils/groupMentorSchedules";
 import SkeletonCard from "@/app/components/carrusel/SkeletonCard";
+import { Button } from "react-native-paper";
+import Toast from "react-native-root-toast";
+import CustomToast from "@/app/components/compraCurso/CustomToast";
+import { GlobalContext } from "@/context/GlobalProvider";
 
 const MuestraMentor = () => {
   const [mentor, setMentor] = useState([]);
@@ -16,6 +20,21 @@ const MuestraMentor = () => {
 
   const cursoDescription = useGlobalSearchParams();
   const { id_curso } = cursoDescription;
+
+  const { showToastRef } = useContext(GlobalContext);
+
+  useEffect(() => {
+    showToastRef.current = () => {
+      Toast.show(<CustomToast />, {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        backgroundColor: "#FFFFFF",
+      });
+    };
+  }, [showToastRef]);
 
   useEffect(() => {
     const fetchMentor = async () => {
@@ -51,8 +70,16 @@ const MuestraMentor = () => {
 
   if (error)
     return (
-      <View>
-        <Text>Error: {error}</Text>
+      <View style={styles.container}>
+        <Text style={styles.title}>¡Oh no!</Text>
+        <Text style={{ fontSize: 20, marginVertical: 10 }}>
+          Próximamente: Por el momento este curso no tiene profesores, sin
+          embargo, puedes escribirnos en nuestro WhatsApp para encontrar a tu
+          profesor de este curso.
+        </Text>
+        <Text style={{ fontSize: 20, fontWeight: "700" }}>
+          Curso Seleccionado: {cursoDescription.curso}
+        </Text>
       </View>
     );
 
@@ -60,38 +87,22 @@ const MuestraMentor = () => {
     <ScrollView>
       <View>
         <Stack.Screen options={{ title: "" }} />
-        {mentor.length ? (
-          <View>
-            <View style={styles.container}>
-              <Text style={styles.title}>¡EnHorabuena!</Text>
-              <Text style={{ fontSize: 20 }}>
-                Mentores disponibles para el curso :
-              </Text>
-              <Text style={{ fontSize: 21, fontWeight: 700 }}>
-                {cursoDescription.curso}
-              </Text>
-            </View>
-            <View style={styles.mentorContainer}>
-              {mentor.map((item, index) => (
-                <CardMentor key={index} props={item} disable={false} />
-              ))}
-            </View>
+        <View>
+          <View style={styles.container}>
+            <Text style={styles.title}>¡EnHorabuena!</Text>
+            <Text style={{ fontSize: 20 }}>
+              Mentores disponibles para el curso :
+            </Text>
+            <Text style={{ fontSize: 21, fontWeight: 700 }}>
+              {cursoDescription.curso}
+            </Text>
           </View>
-        ) : (
-          <View>
-            <View style={styles.container}>
-              <Text style={styles.title}>¡Oh no!</Text>
-              <Text style={{ fontSize: 20 }}>No hay mentores disponibles.</Text>
-              <Text style={{ fontSize: 20, marginVertical: 10 }}>
-                Porfavor comunicate con nosotros para poder accesorate y
-                brindarte una opcion adecuada a tus necesidades.
-              </Text>
-              <Text style={{ fontSize: 20, fontWeight: "700" }}>
-                Curso Seleccionado {cursoDescription.curso}
-              </Text>
-            </View>
+          <View style={styles.mentorContainer}>
+            {mentor.map((item, index) => (
+              <CardMentor key={index} props={item} disable={false} />
+            ))}
           </View>
-        )}
+        </View>
       </View>
     </ScrollView>
   );
