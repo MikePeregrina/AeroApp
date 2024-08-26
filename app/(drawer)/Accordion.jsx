@@ -129,9 +129,7 @@ const MyComponent = () => {
             marginVertical: 10,
             marginHorizontal: "auto",
           }}
-        >
-          <Link href={"/screen/login/LoginScreen"}>Iniciar sesion</Link>
-        </Text>
+        ></Text>
         {userData && userData.datos ? (
           <View style={{ marginTop: "auto" }}>
             <List.Item
@@ -150,7 +148,9 @@ const MyComponent = () => {
               Cerrar Sesion{" "}
             </Button>
           </View>
-        ) : null}
+        ) : (
+          <Link href={"/screen/login/LoginScreen"}>Iniciar sesion</Link>
+        )}
       </List.Section>
     </>
   );
