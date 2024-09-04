@@ -29,7 +29,7 @@ const Select = ({ data, onSelectChange }) => {
         iconStyle={styles.iconStyle}
         data={data}
         search={false}
-        maxHeight={300}
+        maxHeight={200}
         labelField="label"
         valueField="value"
         placeholder={!isFocus ? "Selecciona una opcion" : "..."}

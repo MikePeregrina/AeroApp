@@ -13,6 +13,7 @@ export default function TextInput({ description, isPrimary, ...props }) {
     borderBottomWidth: 1,
   };
   const secondary = {
+    color: "#D7F9FF",
     borderColor: "#D7F9FF",
   };
 

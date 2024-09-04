@@ -2,7 +2,7 @@ import { fetchData } from "@/app/services/API";
 import { showToast } from "@/app/utils/toastUtils";
 import { GlobalContext } from "@/context/GlobalProvider";
 import React, { useContext, useState } from "react";
-import { Modal, View, Text, StyleSheet } from "react-native";
+import { Modal, View, Text, StyleSheet, Image } from "react-native";
 import { ActivityIndicator, Button, MD2Colors } from "react-native-paper";
 import Toast from "react-native-toast-message";
 
@@ -10,7 +10,7 @@ const ModalConfirmacion = ({ hora, props, dia }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { data } = useContext(GlobalContext);
+  const { data, toastConfirmacion } = useContext(GlobalContext);
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -34,8 +34,8 @@ const ModalConfirmacion = ({ hora, props, dia }) => {
         { method: "POST", data: JSON.stringify(payload) }
       );
       if (res.success) {
-        showToast("success", "En hora Buena ✅", `${res.message}`);
         setTimeout(() => {
+          toastConfirmacion();
           setLoading(false);
           setModalVisible(false);
         }, 3000);
@@ -70,16 +70,26 @@ const ModalConfirmacion = ({ hora, props, dia }) => {
           <Toast />
           <View style={styles.modalContent}>
             <View style={{ alignItems: "center" }}>
-              <Text style={styles.tittle}>Master Teach: {props.Mentor}</Text>
-              <Text style={styles.subtitles}>Deseas agendar el curso</Text>
+              <Text style={styles.tittle}>VERIFICA TU CLASE MUESTRA</Text>
+              <View style={{ width: "100%", height: 220, marginVertical: 5 }}>
+                <Image
+                  style={{ width: "100%", height: "100%" }}
+                  source={require("../../assets/images/modal.png")}
+                />
+              </View>
+              <Text style={styles.subtitles}>Clase muestra para:</Text>
               <Text style={styles.span}>{props.Curso}</Text>
-              <Text style={styles.subtitles}>
-                Para el dia {dia}, a las {hora}
+
+              <Text style={styles.subtitles}>Mentor:</Text>
+              <Text style={styles.span}>{props.Mentor}</Text>
+              <Text style={styles.subtitles}>Horario:</Text>
+              <Text style={styles.span}>
+                {dia} 12 de Junio, {hora}
               </Text>
             </View>
             <View style={{ marginVertical: 10 }}>
               <Button
-                labelStyle={{ color: "#FFFFFF" }}
+                labelStyle={{ color: "#2E3532", fontWeight: "700" }}
                 style={styles.buttonConfirmation}
                 onPress={fetch}
               >
@@ -90,7 +100,7 @@ const ModalConfirmacion = ({ hora, props, dia }) => {
                 )}
               </Button>
               <Button
-                labelStyle={{ color: "#BA0000" }}
+                labelStyle={{ color: "#2E3532", fontWeight: "600" }}
                 onPress={() => setModalVisible(false)}
               >
                 Cancelar
@@ -123,26 +133,30 @@ const styles = StyleSheet.create({
     backgroundColor: "#e3f3ff",
   },
   tittle: {
+    borderBottomColor: "#4F7CAC",
+    borderBottomWidth: 1,
     color: "#4F7CAC",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "900",
     marginBottom: 10,
     textAlign: "center",
   },
   subtitles: {
-    fontSize: 17,
+    fontWeight: "500",
+    fontSize: 20,
     marginVertical: 5,
   },
   span: {
-    fontSize: 17,
+    fontSize: 20,
     fontWeight: "bold",
+    color: "#4F7CAC",
   },
   buttonConfirmation: {
     marginTop: 10,
     marginBottom: 10,
     width: "100%",
     borderRadius: 10,
-    backgroundColor: "#3BB143",
+    backgroundColor: "#FAC404",
     fontSize: 17,
     fontWeight: "bold",
   },

@@ -1,142 +1,190 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Text } from "react-native-paper";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Text,
+  KeyboardAvoidingView,
+} from "react-native";
 import Background from "../../components/login/Background";
-import Logo from "../../components/login/Logo";
-import Header from "../../components/login/Header";
 import Button from "../../components/login/Button";
 import TextInput from "../../components/login/TextInput";
 import { theme } from "../../components/login/theme";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
+import * as Yup from "yup";
 import { Stack } from "expo-router";
-import { SignupSchema } from "../../components/login/ValidationSchema";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import IMAGE from "../../assets/login/wido app-08.png";
+import { fetchData } from "@/app/services/API";
+import { showToast } from "@/app/utils/toastUtils";
 import Toast from "react-native-toast-message";
-export default function LoginScreenMentor() {
+
+export default function LoginScreen() {
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
-  const showToast = () => {
-    Toast.show({
-      type: "success",
-      text1: "En hora Buena ✅",
-      text2: "Usuario Registrado Correctamente!",
-      position: "top",
-    });
-  };
+  const SignupSchema = Yup.object().shape({
+    email: Yup.string().email("Correo Incorrecto").required("Campo Requerido"),
+    password: Yup.string().required("Campo Requerido"),
+  });
 
-  const registerUser = async (userData) => {
+  const mockLogin = async (values) => {
+    const { email, password } = values;
+    const data = { correo: email, contrasena: password };
     setLoading(true);
     try {
-      users.push(userData);
-      setTimeout(() => {
-        showToast();
+      const res = await fetchData(
+        "https://www.widolearn.com/index.php?c=Docentes&a=loginApp",
+        { method: "POST", data: JSON.stringify(data) }
+      );
+      if (res) {
+        await AsyncStorage.setItem("@mentor", JSON.stringify(res));
+        showToast(
+          "success",
+          "En hora Buena ✅",
+          `${res.message}, Bienvenido Mentor`
+        );
+        setTimeout(() => {
+          router.replace({
+            pathname: "/screen/loginMentor/Disponibilidad",
+            params: res,
+          });
+          setLoading(false);
+        }, 3000);
+      } else {
+        showToast("error", "Oh no¡ ❌ ", `${res.message}`);
         setLoading(false);
-      }, 3000);
-    } catch (err) {
+      }
+    } catch (e) {
       setLoading(false);
-      console.error("Error registering", err);
+      console.error("Data not found", e);
     }
   };
 
+  const theme = {
+    colors: {
+      primary: "#D7F9FF",
+      underlineColor: "transparent",
+      background: "transparent",
+    },
+  };
+
   return (
-    <Background>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Logo />
-      <Header>Crear Cuenta Mentor</Header>
-      <Toast />
-      <Formik
-        initialValues={{
-          name: "",
-          password: "",
-          email: "",
-          age: "",
-          phone: "",
-        }}
-        validationSchema={SignupSchema}
-        onSubmit={(values) => registerUser(values)}
-      >
-        {({ handleChange, handleBlur, handleSubmit, values, resetForm }) => (
-          <View style={{ width: "100%" }}>
-            <TextInput
-              name="name"
-              label="Nombre"
-              returnKeyType="next"
-              onChangeText={handleChange("name")}
-              onBlur={handleBlur("name")}
-            />
-            <TextInput
-              name="email"
-              label="Correo"
-              returnKeyType="next"
-              onChangeText={handleChange("email")}
-              onBlur={handleBlur("email")}
-              autoCapitalize="none"
-              autoCompleteType="email"
-              textContentType="emailAddress"
-              keyboardType="email-address"
-            />
-            <TextInput
-              name="age"
-              label="Edad"
-              returnKeyType="next"
-              onChangeText={handleChange("age")}
-              onBlur={handleBlur("age")}
-            />
-            <TextInput
-              name="phone"
-              label="Telefono"
-              returnKeyType="next"
-              onChangeText={handleChange("phone")}
-              onBlur={handleBlur("phone")}
-            />
-            <TextInput
-              name="password"
-              label="Contraseña"
-              returnKeyType="done"
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              secureTextEntry
-            />
-            <Button
-              onPress={handleSubmit}
-              mode="contained"
-              style={{ marginTop: 24, backgroundColor: "#2196F3" }}
-              disable={loading}
-            >
-              {!loading ? (
-                "Registrarse"
-              ) : (
-                <ActivityIndicator animating={true} color={MD2Colors.blue600} />
-              )}
-            </Button>
-          </View>
-        )}
-      </Formik>
-      <View style={styles.row}>
-        <Text>Already have an account? </Text>
-        <TouchableOpacity
-          onPress={() => router.navigate("/screen/login/LoginScreen")}
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <Background image={IMAGE}>
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            statusBarTranslucent: true,
+          }}
+        />
+        <View style={styles.tittle}>
+          <Text style={{ fontWeight: "bold", fontSize: 20, color: "#D7F9FF" }}>
+            ¡HOLA MASTER TEACH!
+          </Text>
+        </View>
+        <Toast />
+        <Formik
+          initialValues={{ password: "", email: "" }}
+          validationSchema={SignupSchema}
+          onSubmit={(values) => mockLogin(values)}
         >
-          <Text style={styles.link}>Login</Text>
-        </TouchableOpacity>
-      </View>
-    </Background>
+          {({ handleChange, handleBlur, handleSubmit, values }) => (
+            <View style={{ width: "100%" }}>
+              <View style={{ marginVertical: 15 }}>
+                <TextInput
+                  name="email"
+                  label="Correo"
+                  returnKeyType="next"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  autoCapitalize="none"
+                  autoCompleteType="email"
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+                  theme={theme}
+                  isPrimary={false}
+                />
+              </View>
+              <View style={{ marginVertical: 15 }}>
+                <TextInput
+                  name="password"
+                  label="Contraseña"
+                  returnKeyType="done"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  secureTextEntry
+                  theme={theme}
+                  isPrimary={false}
+                />
+              </View>
+              <View style={styles.forgotPassword}>
+                <TouchableOpacity
+                  onPress={() =>
+                    router.replace("/screen/login/ResetPasswordScreen")
+                  }
+                >
+                  <Text style={styles.forgot}>Olvidates tu contraseña?</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{ alignItems: "center", marginTop: 10 }}>
+                <Button
+                  onPress={handleSubmit}
+                  style={{
+                    backgroundColor: "#4F7CAC",
+                    color: "#FEC400",
+                  }}
+                  mode="contained"
+                  disable={loading}
+                >
+                  {!loading ? (
+                    "Iniciar Sesion"
+                  ) : (
+                    <ActivityIndicator
+                      animating={true}
+                      color={MD2Colors.white}
+                    />
+                  )}
+                </Button>
+              </View>
+            </View>
+          )}
+        </Formik>
+      </Background>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  forgotPassword: {
+    width: "100%",
+    alignItems: "flex-end",
+    marginBottom: 24,
+    marginTop: 3,
+  },
   row: {
     flexDirection: "row",
     marginTop: 4,
   },
+  forgot: {
+    fontSize: 13,
+    color: theme.colors.secondary,
+  },
   link: {
     fontWeight: "bold",
-    color: theme.colors.primary,
+    color: "#4F7CAC",
+  },
+  tittle: {
+    width: 250,
+    height: 45,
+    marginTop: "80%",
+    marginBottom: "10%",
+    borderWidth: 2,
+    borderColor: "#D7F9FF",
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -5,6 +5,7 @@ import {
   View,
   Text,
   KeyboardAvoidingView,
+  Linking,
 } from "react-native";
 import Background from "../../components/login/Background";
 import Button from "../../components/login/Button";
@@ -121,10 +122,12 @@ export default function LoginScreen() {
               <View style={styles.forgotPassword}>
                 <TouchableOpacity
                   onPress={() =>
-                    router.replace("/screen/login/ResetPasswordScreen")
+                    Linking.openURL(
+                      "https://www.widolearn.com/index.php?c=Usuarios&a=recuperarContraseña"
+                    )
                   }
                 >
-                  <Text style={styles.forgot}>Olvidates tu contraseña?</Text>
+                  <Text style={styles.forgot}>¿Olvidaste tu contraseña?</Text>
                 </TouchableOpacity>
               </View>
               <View style={{ alignItems: "center" }}>
